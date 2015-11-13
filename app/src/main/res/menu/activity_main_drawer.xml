@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="BDE">
+        <menu>
+        <group android:checkableBehavior="single">
+                <item android:id="@+id/nav_news" android:icon="@drawable/ic_developer_board_white_24dp"
+                    android:title="Les News" />
+                <item android:id="@+id/nav_agenda" android:icon="@drawable/ic_event_white_24dp"
+                    android:title="Agenda" />
+                <item android:id="@+id/nav_jeux" android:icon="@drawable/ic_games_white_24dp"
+                    android:title="Jeux" />
+        </group>
+        </menu>
+    </item>
+
+    <item android:title="Mon Espace">
+        <menu>
+        <group android:checkableBehavior="single">
+                <item android:id="@+id/nav_mes_clubs" android:icon="@drawable/ic_group_white_24dp"
+                    android:title="Mes Clubs" />
+                <item android:id="@+id/nav_annales" android:icon="@drawable/ic_school_white_24dp"
+                    android:title="Annales" />
+        </group>
+        </menu>
+    </item>
+
+    <item android:title="Divers">
+        <menu>
+            <item android:id="@+id/nav_settings" android:icon="@drawable/ic_settings_white_24dp"
+                android:title="Paramètres" />
+            <item android:id="@+id/nav_help" android:icon="@drawable/ic_help_white_24dp"
+                android:title="Aide &amp; Commentaires" />
+            <item android:id="@+id/nav_signout" android:icon="@drawable/ic_power_settings_new_white_24dp"
+                android:title="Déconnexion" />
+        </menu>
+    </item>
+
+</menu>
