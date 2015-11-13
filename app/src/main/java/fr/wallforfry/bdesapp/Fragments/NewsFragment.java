@@ -1,12 +1,18 @@
 package fr.wallforfry.bdesapp.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import fr.wallforfry.bdesapp.MainActivity;
 import fr.wallforfry.bdesapp.R;
+import fr.wallforfry.bdesapp.SettingsActivity;
 
 /**
  * Created by wallerand on 11/11/2015.
@@ -39,10 +45,18 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
+
+      //permet de récupérer les préférences
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String pref = sp.getString("example_text", "YourName");
+        TextView text = (TextView) rootView.findViewById(R.id.textView2);
+        text.setText(pref);
+
         return rootView;
     }
 
     public static String getTitle(){
         return title;
     }
+
 }
