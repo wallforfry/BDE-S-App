@@ -58,7 +58,7 @@ public class JeuxFragment extends Fragment {
                     i.addCategory(Intent.CATEGORY_LAUNCHER);
                     startActivity(i);
                 } catch (PackageManager.NameNotFoundException e) {
-                    // affiche que l'appli n'es pas présente sur le tel et ouvre le store
+                    // affiche que l'appli n'es pas présente sur le téléphone et ouvre le play store
                     playStore(getString(R.string.game_1_package));
                 }
             }
