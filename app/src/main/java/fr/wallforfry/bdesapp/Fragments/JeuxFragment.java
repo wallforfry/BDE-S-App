@@ -1,17 +1,20 @@
 package fr.wallforfry.bdesapp.Fragments;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.wallforfry.bdesapp.Adapter.CardGameAdapter;
+import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.R;
 
 /**
@@ -25,6 +28,9 @@ public class JeuxFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static String title = "Jeux";
+
+    private RecyclerView recyclerView;
+    private List<CardGameObject> gameList = new ArrayList<>();
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -46,11 +52,11 @@ public class JeuxFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_jeux, container, false);
 
-        FloatingActionButton fab_game_1 = (FloatingActionButton) rootView.findViewById(R.id.game_1_button);
+       /* FloatingActionButton fab_game_1 = (FloatingActionButton) rootView.findViewById(R.id.game_button);
         fab_game_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                               Intent i;
+                Intent i;
                 try {
                     i = getActivity().getPackageManager().getLaunchIntentForPackage(getString(R.string.game_1_package));
                     if (i == null)
@@ -62,7 +68,23 @@ public class JeuxFragment extends Fragment {
                     playStore(getString(R.string.game_1_package));
                 }
             }
-        });
+        });*/
+
+        //recycler view
+        //remplir la ville
+        ajouterJeux();
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+
+        //définit l'agencement des cellules, ici de façon verticale, comme une ListView
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
+        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+
+        //puis créer un MyAdapter, lui fournir notre liste de villes.
+        //cet adapter servira à remplir notre recyclerview
+        recyclerView.setAdapter(new CardGameAdapter(gameList));
 
         return rootView;
     }
@@ -79,4 +101,16 @@ public class JeuxFragment extends Fragment {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
     }
+
+    private void ajouterJeux() {
+        gameList.add(new CardGameObject("Tape Taupe", R.drawable.taupe, "com.tulipe.game.android"));
+       /* cities.add(new MyObject("France","http://www.telegraph.co.uk/travel/destination/article130148.ece/ALTERNATES/w620/parisguidetower.jpg", "com.umonistudio.tile"));
+        cities.add(new MyObject("Angleterre","http://www.traditours.com/images/Photos%20Angleterre/ForumLondonBridge.jpg", ""));
+        cities.add(new MyObject("Allemagne","http://tanned-allemagne.com/wp-content/uploads/2012/10/pano_rathaus_1280.jpg", ""));
+        cities.add(new MyObject("Espagne","http://www.sejour-linguistique-lec.fr/wp-content/uploads/espagne-02.jpg", ""));
+        cities.add(new MyObject("Italie","http://retouralinnocence.com/wp-content/uploads/2013/05/Hotel-en-Italie-pour-les-Vacances2.jpg", ""));
+        cities.add(new MyObject("Russie","http://www.choisir-ma-destination.com/uploads/_large_russie-moscou2.jpg", ""));*/
+    }
+
+
 }
