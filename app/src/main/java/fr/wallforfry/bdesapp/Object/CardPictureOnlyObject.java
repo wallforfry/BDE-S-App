@@ -3,25 +3,15 @@ package fr.wallforfry.bdesapp.Object;
 /**
  * Created by wallerand on 15/11/2015.
  */
-public class CardBigPictureObject {
+public class CardPictureOnlyObject {
     private String title;
     private String subtitle;
-    private String text;
     private int imageUrl;
 
-    public CardBigPictureObject(String title, String subtitle, String text, int imageUrl) {
+    public CardPictureOnlyObject(String title, String subtitle, int imageUrl) {
         this.title = title;
         this.subtitle = subtitle;
-        this.text = text;
         this.imageUrl = imageUrl;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public int getImageUrl() {
