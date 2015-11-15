@@ -1,5 +1,6 @@
 package fr.wallforfry.bdesapp.Fragments;
 
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -84,22 +85,27 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeLayout.setRefreshing(true);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ajouterAutre();
-                        recyclerView.setAdapter(new NewsViewAdapter(gameList));
-                        swipeLayout.setRefreshing(false);
-                        Toast.makeText(getContext(), "List Updated",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }, 3000);
-            }
-        });
+        swipeLayout.setColorSchemeColors(
+                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+
+    swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+
+    {
+        @Override
+        public void onRefresh() {
+            swipeLayout.setRefreshing(true);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ajouterAutre();
+                    recyclerView.setAdapter(new NewsViewAdapter(gameList));
+                    swipeLayout.setRefreshing(false);
+                    Toast.makeText(getContext(), "List Updated",
+                            Toast.LENGTH_LONG).show();
+                }
+            }, 5000);
+        }
+    });
         return rootView;
     }
 
