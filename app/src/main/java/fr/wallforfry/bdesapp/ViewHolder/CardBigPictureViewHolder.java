@@ -28,7 +28,6 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
     private TextView subtitle;
     private ImageView imageView;
     private ImageButton expend;
-    private Boolean open = false;
     private CardBigPictureObject myObject;
 
     //itemView est la vue correspondante à 1 cellule
@@ -45,7 +44,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         expend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(open == false) {
+                if(myObject.getOpen() == false) {
                     moreContent(myObject);
                 }
                 else{
@@ -60,8 +59,11 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         this.myObject = myObject;
         title.setText(myObject.getTitle());
         subtitle.setText(myObject.getSubtitle());
-        contenu.setVisibility(View.INVISIBLE);
-        expend.setImageResource(R.drawable.ic_expand_less_black_24dp);
+        if(myObject.getOpen() == false){
+            lessContent(myObject);
+        }else{
+            moreContent(myObject);
+        }
         //Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
         imageView.setImageResource(myObject.getImageUrl());
     }
@@ -71,7 +73,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         contenu.setVisibility(View.VISIBLE);
         contenu.setPadding(0,16,0,24);
         expend.setImageResource(R.drawable.ic_expand_more_black_24dp);
-        open = true;
+        myObject.setOpen(true);
     }
 
     public void lessContent(CardBigPictureObject myObject){
@@ -79,6 +81,6 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         contenu.setVisibility(View.INVISIBLE);
         contenu.setPadding(0,8,0,0);
         expend.setImageResource(R.drawable.ic_expand_less_black_24dp);
-        open = false;
+        myObject.setOpen(false);
     }
 }

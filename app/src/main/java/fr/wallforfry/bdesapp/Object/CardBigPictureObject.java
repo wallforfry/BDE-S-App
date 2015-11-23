@@ -8,6 +8,7 @@ public class CardBigPictureObject {
     private String subtitle;
     private String text;
     private int imageUrl;
+    private Boolean open = false;
 
     public CardBigPictureObject(String title, String subtitle, String text, int imageUrl) {
         this.title = title;
@@ -46,5 +47,13 @@ public class CardBigPictureObject {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 }

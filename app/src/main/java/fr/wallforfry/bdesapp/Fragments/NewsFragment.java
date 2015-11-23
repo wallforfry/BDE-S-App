@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,14 +74,14 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_news, container, false);
 
+
+        Refresh();
       /*//permet de récupérer les préférences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String pref = sp.getString("example_text", "YourName");
         TextView text = (TextView) rootView.findViewById(R.id.textView2);
         text.setText(pref);*/
 
-
-        ajouterNews();
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
@@ -105,35 +106,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeLayout.setRefreshing(true);
-
-                ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.isConnected()) {
-                    // fetch data
-                    Thread task = null;
-                    if (task == null){
-                       task = new Thread(
-                                new Runnable() {
-                                    public void run() {
-                                        maj = BddConnect.getPersonnes();
-                                    }
-                                });
-                        task.start();
-                    }
-                    else{
-                        task.run();
-                    }
-
-                    new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                ajouterAutre();
-                            }
-                        }, 5000);
-                    }
-                else {
-                    notConnected();
-                }
+                Refresh();
             }
         });
         return rootView;
@@ -145,7 +118,7 @@ public class NewsFragment extends Fragment {
 
     private void ajouterNews() {
         //BddConnect.getNews();
-        gameList.add(new CardGameObject("Dernier jeu", R.drawable.taupe, "com.tulipe.android.taupe"));
+        /*gameList.add(new CardGameObject("Dernier jeu", R.drawable.taupe, "com.tulipe.android.taupe"));
         gameList.add(new CardBigPictureObject("Capucine", "Elle aime les licornes", "J'aime les licornes et leurs jolies cornes because elles sont cool !", R.drawable.russia));
         gameList.add(new CardMediumRightObject("Picture Right", "medium test", R.drawable.paris));
         gameList.add(new CardPictureOnlyObject("Picture only", "Picture subtitle", R.drawable.russia));
@@ -153,6 +126,7 @@ public class NewsFragment extends Fragment {
         gameList.add(new CardBigPictureObject("Rafraichir", "Explication ici", "Pour rafraichir, tirez vers le bas", R.drawable.taupe));
         // gameList.add(new AnnalesObject("Gros titre"));
         gameList.add(new CardBigPictureObject("Le titre de ma carte", "Là c'est son sous-titre", "Et ici un contenu qui va être très très très très long parce que j'ai besoin de tester l'adaptation d'un grand text", R.drawable.taupe));
+        */
     }
 
     private void ajouterAutre() {
@@ -177,6 +151,35 @@ public class NewsFragment extends Fragment {
 
         BddConnect.makeSnack(rootView, "Mise à jour impossible");
         swipeLayout.setRefreshing(false);
+    }
+
+    private void Refresh(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // fetch data
+            Thread task = null;
+            if (task == null) {
+                task = new Thread(
+                        new Runnable() {
+                            public void run() {
+                                maj = BddConnect.getPersonnes();
+                            }
+                        });
+                task.start();
+            } else {
+                task.run();
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ajouterAutre();
+                }
+            }, 2000);
+        } else {
+            notConnected();
+        }
     }
 
 }
