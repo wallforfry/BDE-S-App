@@ -1,14 +1,12 @@
 package fr.wallforfry.bdesapp.ViewHolder;
 
 
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
-import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
 
 /**

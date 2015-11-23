@@ -3,10 +3,11 @@ package fr.wallforfry.bdesapp;
 /**
  * Created by wallerand on 23/11/2015.
  */
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
 
 public class SqLiteBdd extends SQLiteOpenHelper {
 

@@ -1,21 +1,12 @@
 package fr.wallforfry.bdesapp.ViewHolder;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import fr.wallforfry.bdesapp.Adapter.NewsViewAdapter;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
-import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.R;
 
 /**
@@ -44,10 +35,9 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         expend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(myObject.getOpen() == false) {
+                if (myObject.getOpen() == false) {
                     moreContent(myObject);
-                }
-                else{
+                } else {
                     lessContent(myObject);
                 }
             }
@@ -71,7 +61,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
     public void moreContent(CardBigPictureObject myObject){
         contenu.setText(myObject.getText());
         contenu.setVisibility(View.VISIBLE);
-        contenu.setPadding(0,16,0,24);
+        contenu.setPadding(0, 16, 0, 24);
         expend.setImageResource(R.drawable.ic_expand_more_black_24dp);
         myObject.setOpen(true);
     }

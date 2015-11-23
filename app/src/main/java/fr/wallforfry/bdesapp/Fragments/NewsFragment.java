@@ -22,7 +22,6 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,6 @@ public class NewsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_news, container, false);
 
 
-        Refresh();
       /*//permet de récupérer les préférences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String pref = sp.getString("example_text", "YourName");
@@ -96,6 +94,8 @@ public class NewsFragment extends Fragment {
         adapter = new NewsViewAdapter((gameList));
         recyclerView.setAdapter(adapter);
 
+        ajouterNews();
+
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
         swipeLayout.setColorSchemeColors(
                 Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -109,6 +109,7 @@ public class NewsFragment extends Fragment {
                 Refresh();
             }
         });
+        ajouterNews();
         return rootView;
     }
 
@@ -118,7 +119,7 @@ public class NewsFragment extends Fragment {
 
     private void ajouterNews() {
         //BddConnect.getNews();
-        /*gameList.add(new CardGameObject("Dernier jeu", R.drawable.taupe, "com.tulipe.android.taupe"));
+        gameList.add(new CardGameObject("Dernier jeu", R.drawable.taupe, "com.tulipe.android.taupe"));
         gameList.add(new CardBigPictureObject("Capucine", "Elle aime les licornes", "J'aime les licornes et leurs jolies cornes because elles sont cool !", R.drawable.russia));
         gameList.add(new CardMediumRightObject("Picture Right", "medium test", R.drawable.paris));
         gameList.add(new CardPictureOnlyObject("Picture only", "Picture subtitle", R.drawable.russia));
@@ -126,7 +127,6 @@ public class NewsFragment extends Fragment {
         gameList.add(new CardBigPictureObject("Rafraichir", "Explication ici", "Pour rafraichir, tirez vers le bas", R.drawable.taupe));
         // gameList.add(new AnnalesObject("Gros titre"));
         gameList.add(new CardBigPictureObject("Le titre de ma carte", "Là c'est son sous-titre", "Et ici un contenu qui va être très très très très long parce que j'ai besoin de tester l'adaptation d'un grand text", R.drawable.taupe));
-        */
     }
 
     private void ajouterAutre() {
@@ -176,7 +176,7 @@ public class NewsFragment extends Fragment {
                 public void run() {
                     ajouterAutre();
                 }
-            }, 2000);
+            }, 5000);
         } else {
             notConnected();
         }

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import fr.wallforfry.bdesapp.Object.AnnalesObject;
-import fr.wallforfry.bdesapp.ViewHolder.AnnalesViewHolder;
 import fr.wallforfry.bdesapp.R;
+import fr.wallforfry.bdesapp.ViewHolder.AnnalesViewHolder;
 
 /**
  * Created by wallerand on 14/11/2015.

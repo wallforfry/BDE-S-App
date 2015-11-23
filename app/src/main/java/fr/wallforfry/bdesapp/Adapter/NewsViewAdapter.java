@@ -4,17 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import java.util.List;
 
-import fr.wallforfry.bdesapp.Object.AnnalesObject;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
 import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
-import fr.wallforfry.bdesapp.ViewHolder.AnnalesViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardBigPictureViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardGameViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardMediumRightViewHolder;

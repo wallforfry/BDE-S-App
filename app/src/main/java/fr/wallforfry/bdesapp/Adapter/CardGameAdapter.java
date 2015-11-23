@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import fr.wallforfry.bdesapp.Object.CardGameObject;
-import fr.wallforfry.bdesapp.ViewHolder.CardGameViewHolder;
 import fr.wallforfry.bdesapp.R;
+import fr.wallforfry.bdesapp.ViewHolder.CardGameViewHolder;
 
 /**
 * Created by wallerand on 14/11/2015.
