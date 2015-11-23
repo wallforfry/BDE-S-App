@@ -11,11 +11,13 @@ import java.util.List;
 import fr.wallforfry.bdesapp.Object.AnnalesObject;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
+import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
 import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
 import fr.wallforfry.bdesapp.ViewHolder.AnnalesViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardBigPictureViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardGameViewHolder;
+import fr.wallforfry.bdesapp.ViewHolder.CardMediumRightViewHolder;
 import fr.wallforfry.bdesapp.ViewHolder.CardPictureOnlyViewHolder;
 
 /**
@@ -26,7 +28,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // The items to display in your RecyclerView
     private List<Object> items;
 
-    private final int USER = 0, IMAGE = 1, BIG_PICTURE = 2;
+    private final int GAME = 0, IMAGE = 1, BIG_PICTURE = 2, MEDIUM_RIGHT = 3;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -44,11 +46,13 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         if (items.get(position) instanceof CardGameObject) {
-            return USER;
+            return GAME;
         } else if (items.get(position) instanceof CardPictureOnlyObject) {
             return IMAGE;
         } else if (items.get(position) instanceof CardBigPictureObject){
             return BIG_PICTURE;
+        } else if (items.get(position) instanceof CardMediumRightObject){
+            return MEDIUM_RIGHT;
         }
         return -1;
     }
@@ -67,7 +71,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
         switch (viewType) {
-            case USER:
+            case GAME:
                 View v1 = inflater.inflate(R.layout.cell_cards, viewGroup, false);
                 viewHolder = new CardGameViewHolder(v1);
                 break;
@@ -78,6 +82,10 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case BIG_PICTURE:
                 View v3 = inflater.inflate(R.layout.cell_big_picture, viewGroup, false);
                 viewHolder = new CardBigPictureViewHolder(v3);
+                break;
+            case MEDIUM_RIGHT:
+                View v4 = inflater.inflate(R.layout.cell_cards_medium_right, viewGroup, false);
+                viewHolder = new CardMediumRightViewHolder(v4);
                 break;
                 /*
             default:
@@ -99,7 +107,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
-            case USER:
+            case GAME:
                 CardGameViewHolder vh1 = (CardGameViewHolder) viewHolder;
                 configureCardGameViewHolder(vh1, position);
                 break;
@@ -110,12 +118,21 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case BIG_PICTURE:
                 CardBigPictureViewHolder vh3 = (CardBigPictureViewHolder) viewHolder;
                 configureCardBigPictureViewHolder(vh3, position);
+                break;
+            case MEDIUM_RIGHT:
+                CardMediumRightViewHolder vh4 = (CardMediumRightViewHolder) viewHolder;
+                configureCardMediumRightViewHolder(vh4, position);
                 break;/*
             default:
                 RecyclerViewSimpleTextViewHolder vh = (RecyclerViewSimpleTextViewHolder) viewHolder;
                 configureDefaultViewHolder(vh, position);
                 break;*/
         }
+    }
+
+    private void configureCardMediumRightViewHolder(CardMediumRightViewHolder vh4, int position) {
+        CardMediumRightObject myObject = (CardMediumRightObject) items.get(position);
+        vh4.bind(myObject);
     }
 
    /* private void configureDefaultViewHolder(RecyclerViewSimpleTextViewHolder vh, int position) {

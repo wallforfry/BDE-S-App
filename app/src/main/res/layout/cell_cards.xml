@@ -51,7 +51,7 @@
                     android:background="?android:selectableItemBackground"
                     tools:text="Tape Taupe"
                     android:fontFamily="sans-serif"
-                    android:textColor="@color/colorSecondaryText"
+                    android:textColor="@color/colorPrimaryText"
                     android:textSize="24sp"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
