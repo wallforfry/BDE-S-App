@@ -7,10 +7,10 @@ public class CardBigPictureObject {
     private String title;
     private String subtitle;
     private String text;
-    private int imageUrl;
+    private String imageUrl;
     private Boolean open = false;
 
-    public CardBigPictureObject(String title, String subtitle, String text, int imageUrl) {
+    public CardBigPictureObject(String title, String subtitle, String text, String imageUrl) {
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
@@ -25,11 +25,11 @@ public class CardBigPictureObject {
         this.text = text;
     }
 
-    public int getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(int imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

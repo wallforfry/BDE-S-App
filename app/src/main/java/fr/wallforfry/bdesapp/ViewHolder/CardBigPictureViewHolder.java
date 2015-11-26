@@ -6,6 +6,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.R;
 
@@ -35,7 +37,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         expend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myObject.getOpen() == false) {
+                if (!myObject.getOpen()) {
                     moreContent(myObject);
                 } else {
                     lessContent(myObject);
@@ -49,13 +51,13 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         this.myObject = myObject;
         title.setText(myObject.getTitle());
         subtitle.setText(myObject.getSubtitle());
-        if(myObject.getOpen() == false){
+        if(!myObject.getOpen()){
             lessContent(myObject);
         }else{
             moreContent(myObject);
         }
-        //Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
-        imageView.setImageResource(myObject.getImageUrl());
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        //imageView.setImageResource(myObject.getImageUrl());
     }
 
     public void moreContent(CardBigPictureObject myObject){

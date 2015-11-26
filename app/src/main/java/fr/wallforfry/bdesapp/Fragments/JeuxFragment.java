@@ -103,7 +103,7 @@ public class JeuxFragment extends Fragment {
     }
 
     private void ajouterJeux() {
-        gameList.add(new CardGameObject("Tape Taupe", R.drawable.taupe, "com.tulipe.android.taupe"));
+        gameList.add(new CardGameObject("Tape Taupe", "http://psp-img.gamergen.com/taupe-chrono-007_0190000000327445.png", "com.tulipe.android.taupe"));
        /* cities.add(new MyObject("France","http://www.telegraph.co.uk/travel/destination/article130148.ece/ALTERNATES/w620/parisguidetower.jpg", "com.umonistudio.tile"));
         cities.add(new MyObject("Angleterre","http://www.traditours.com/images/Photos%20Angleterre/ForumLondonBridge.jpg", ""));
         cities.add(new MyObject("Allemagne","http://tanned-allemagne.com/wp-content/uploads/2012/10/pano_rathaus_1280.jpg", ""));

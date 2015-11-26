@@ -6,19 +6,19 @@ package fr.wallforfry.bdesapp.Object;
 public class CardPictureOnlyObject {
     private String title;
     private String subtitle;
-    private int imageUrl;
+    private String imageUrl;
 
-    public CardPictureOnlyObject(String title, String subtitle, int imageUrl) {
+    public CardPictureOnlyObject(String title, String subtitle, String imageUrl) {
         this.title = title;
         this.subtitle = subtitle;
         this.imageUrl = imageUrl;
     }
 
-    public int getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(int imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

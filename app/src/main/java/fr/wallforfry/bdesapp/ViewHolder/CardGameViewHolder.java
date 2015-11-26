@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.R;
 
@@ -56,8 +58,8 @@ public class CardGameViewHolder extends RecyclerView.ViewHolder{
     public void bind(CardGameObject myObject){
         textViewView.setText(myObject.getText());
         gameName = myObject.getPkgName();
-        //Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
-        imageView.setImageResource(myObject.getImageUrl());
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        //imageView.setImageResource(myObject.getImageUrl());
     }
 
     public void playStore(String appPackageName, View v) {      //ouvre le market avec le package cible

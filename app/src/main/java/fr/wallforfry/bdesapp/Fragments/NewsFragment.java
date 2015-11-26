@@ -78,24 +78,7 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_news, container, false);
 
-        //test bdd locale
-
-
-        DBHelper mydb = new DBHelper(getActivity());
-        dbShare = mydb;
-        mydb.insertNews(0,10,"locale 0","test","test","test","test","test");
-        mydb.insertNews(1,10,"locale 1","test","test","test","test","test");
-        mydb.insertNews(2,10,"locale 2","test","test","test","test","test");
-        mydb.insertNews(3,10,"locale 3","test","test","test","test","test");
-        mydb.insertNews(4,10,"locale 4","test","test","test","test","test");
-        mydb.insertNews(5,10,"locale 5","test","test","test","test","test");
-        mydb.insertNews(6,10,"locale 6","test","test","test","test","test");
-        mydb.insertNews(7,10,"locale 7","test","test","test","test","test");
-        mydb.insertNews(8,10,"locale 8","test","test","test","test","test");
-        mydb.insertNews(9,10,"locale 9","test","test","test","test","test");
-
-
-        //fin test
+        initNews(); //init de la bdd pour première utilisation
 
 
       /*//permet de récupérer les préférences
@@ -119,7 +102,6 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         getLocalNews();
-       // ajouterNews();
 
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
         swipeLayout.setColorSchemeColors(
@@ -134,7 +116,6 @@ public class NewsFragment extends Fragment {
                 Refresh();
             }
         });
-        ajouterNews();
         return rootView;
     }
 
@@ -142,17 +123,14 @@ public class NewsFragment extends Fragment {
         return title;
     }
 
-    private void ajouterNews() {
-        /*//BddConnect.getNews();
-        gameList.add(new CardGameObject("Dernier jeu", R.drawable.taupe, "com.tulipe.android.taupe"));
-        gameList.add(new CardBigPictureObject("Capucine", "Elle aime les licornes", "J'aime les licornes et leurs jolies cornes because elles sont cool !", R.drawable.russia));
-        gameList.add(new CardMediumRightObject("Picture Right", "medium test", R.drawable.paris));
-        gameList.add(new CardPictureOnlyObject("Picture only", "Picture subtitle", R.drawable.russia));
-        gameList.add(new CardPictureOnlyObject("Paris", "Best world town", R.drawable.paris));
-        gameList.add(new CardBigPictureObject("Rafraichir", "Explication ici", "Pour rafraichir, tirez vers le bas", R.drawable.taupe));
-        // gameList.add(new AnnalesObject("Gros titre"));
-        gameList.add(new CardBigPictureObject("Le titre de ma carte", "Là c'est son sous-titre", "Et ici un contenu qui va être très très très très long parce que j'ai besoin de tester l'adaptation d'un grand text", R.drawable.taupe));
-    */}
+    private void initNews() {
+        DBHelper mydb = new DBHelper(getActivity());
+        dbShare = mydb;
+        mydb.insertNews(0,2,"Bienvenue","Application du BDE","Pour accéder pour la première fois aux news, glissez vers le bas","http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg","test","test","test");
+        for(int i=1; i< 10; i++) {
+            mydb.insertNews(i, 10, "locale", "test", "test", "test", "test", "test", "test");
+        }
+    }
 
     private void ajouterAutre() {
         //adapter.clear();
@@ -209,13 +187,13 @@ public class NewsFragment extends Fragment {
 
     private void getLocalNews(){
 
-        DBHelper mydb ;
+      /*  DBHelper mydb ;
 
         mydb = new DBHelper(getActivity());
-
+*/
         //int Value = 0; //id de la recherche
         for(int Value = 0; Value <10 ; Value++) {
-            Cursor rs = mydb.getData(Value);
+            Cursor rs = dbShare.getData(Value);
             id_To_Update = Value;
             rs.moveToFirst();
 
@@ -227,22 +205,23 @@ public class NewsFragment extends Fragment {
             String picture = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_PICTURE));
             String action1 = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_ACTION1));
             String action2 = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_ACTION2));
+            String date = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_DATE));
 
             switch (type) {
                 case 0:
-                    CardGameObject game = new CardGameObject(title, R.drawable.taupe, subtitle);
+                    CardGameObject game = new CardGameObject(title, picture, subtitle);
                     gameList.add(game);
                     break;
                 case 1:
-                    CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(title, subtitle, R.drawable.taupe);
+                    CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(title, subtitle, picture);
                     gameList.add(pictureOnly);
                     break;
                 case 2:
-                    CardBigPictureObject bigPicture = new CardBigPictureObject(title, subtitle, content, R.drawable.taupe);
+                    CardBigPictureObject bigPicture = new CardBigPictureObject(title, subtitle, content, picture);
                     gameList.add(bigPicture);
                     break;
                 case 3:
-                    CardMediumRightObject mediumRight = new CardMediumRightObject(title, subtitle, R.drawable.taupe);
+                    CardMediumRightObject mediumRight = new CardMediumRightObject(title, subtitle, picture);
                     gameList.add(mediumRight);
                     break;
             }

@@ -48,7 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table " + NEWS_TABLE_NAME +
-                        "(id integer, type integer, title text, subtitle text, content text, picture text, action1 text, action2 text)"
+                        "(id integer, type integer, title text, subtitle text, content text, picture text, action1 text, action2 text, date text)"
         );
     }
 
@@ -59,7 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertNews  (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2)
+    public boolean insertNews  (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -71,6 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(NEWS_COLUMN_PICTURE, picture);
         contentValues.put(NEWS_COLUMN_ACTION1, action1);
         contentValues.put(NEWS_COLUMN_ACTION2, action2);
+        contentValues.put(NEWS_COLUMN_DATE, date);
         db.insert(NEWS_TABLE_NAME, null, contentValues);
         return true;
     }
@@ -87,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateNews (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2)
+    public boolean updateNews (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -99,6 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(NEWS_COLUMN_PICTURE, picture);
         contentValues.put(NEWS_COLUMN_ACTION1, action1);
         contentValues.put(NEWS_COLUMN_ACTION2, action2);
+        contentValues.put(NEWS_COLUMN_DATE, date);
         db.update(NEWS_TABLE_NAME, contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
@@ -120,53 +122,10 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res =  db.rawQuery( "select * from " + NEWS_TABLE_NAME, null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(NEWS_COLUMN_TITLE)));
             res.moveToNext();
         }
         return array_list;
     }
-
- /*   public List getLocalNews(Context context){            //inutile car pas exploitable ici a cause du context pour le moment
-
-        DBHelper mydb ;
-
-        mydb = new DBHelper(context);
-
-        int Value = 0; //id de la recherche
-
-        Cursor rs = mydb.getData(Value);
-        id_To_Update = Value;
-        rs.moveToFirst();
-
-        List localList = new ArrayList<>();
-
-        int type = rs.getInt(rs.getColumnIndex(DBHelper.NEWS_COLUMN_TYPE));
-        String title = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_TITLE));
-        String subtitle = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_SUBTITLE));
-        String content = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_CONTENT));
-        String picture = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_PICTURE));
-        String action1 = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_ACTION1));
-        String action2 = rs.getString(rs.getColumnIndex(DBHelper.NEWS_COLUMN_ACTION2));
-
-        switch (type) {
-            case 0:
-                CardGameObject game = new CardGameObject(title, R.drawable.taupe, subtitle);
-                localList.add(game);
-                break;
-            case 1:
-                CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(title, subtitle, R.drawable.taupe);
-                localList.add(pictureOnly);
-                break;
-            case 2:
-                CardBigPictureObject bigPicture = new CardBigPictureObject(title, subtitle, content, R.drawable.taupe);
-                localList.add(bigPicture);
-                break;
-            case 3:
-                CardMediumRightObject mediumRight = new CardMediumRightObject(title, subtitle, R.drawable.taupe);
-                localList.add(mediumRight);
-                break;
-        }
-        return localList;
-    }*/
 }

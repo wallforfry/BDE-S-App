@@ -6,9 +6,9 @@ package fr.wallforfry.bdesapp.Object;
 public class CardGameObject {
     private String text;
     private String pkgName;
-    private int imageUrl;
+    private String imageUrl;
 
-    public CardGameObject(String text, int imageUrl, String pkgName) {
+    public CardGameObject(String text, String imageUrl, String pkgName) {
         this.text = text;
         this.imageUrl = imageUrl;
         this.pkgName = pkgName;
@@ -22,11 +22,11 @@ public class CardGameObject {
         this.text = text;
     }
 
-    public int getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(int imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

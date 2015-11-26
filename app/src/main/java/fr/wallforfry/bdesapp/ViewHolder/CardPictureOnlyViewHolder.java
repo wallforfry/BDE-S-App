@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
 
@@ -33,8 +35,8 @@ public class CardPictureOnlyViewHolder extends RecyclerView.ViewHolder{
     public void bind(CardPictureOnlyObject myObject){
         title.setText(myObject.getTitle());
         subtitle.setText(myObject.getSubtitle());
-        //Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
-        imageView.setImageResource(myObject.getImageUrl());
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        //imageView.setImageResource(myObject.getImageUrl());
     }
 
 }

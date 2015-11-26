@@ -1,7 +1,6 @@
 package fr.wallforfry.bdesapp;
 
 
-import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.wallforfry.bdesapp.BDD.DBHelper;
-import fr.wallforfry.bdesapp.BDD.LocalBddConnect;
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
@@ -30,15 +28,6 @@ public class BddConnect {
     public static List getPersonnes() {
 
         List maj = new ArrayList<>();
-
-       /* ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new DownloadWebpageTask().execute(stringUrl);
-        } else {
-            textView.setText("No network connection available.");
-        }*/
 
         try {
 
@@ -68,24 +57,24 @@ public class BddConnect {
 
 
                 //ajout en local
-                mydb.updateNews(i,obj.getInt("type"),obj.getString("title"),obj.getString("subtitle"),obj.getString("content"),obj.getString("picture"),obj.getString("action1"),obj.getString("action2"));
+                mydb.updateNews(i,obj.getInt("type"),obj.getString("title"),obj.getString("subtitle"),obj.getString("content"),obj.getString("picture"),obj.getString("action1"),obj.getString("action2"),obj.getString("date"));
 
 
                 switch (obj.getInt("type")) {
                     case 0:
-                        CardGameObject game = new CardGameObject(obj.getString("title"), R.drawable.taupe, obj.getString("subtitle"));
+                        CardGameObject game = new CardGameObject(obj.getString("title"), obj.getString("picture"), obj.getString("subtitle"));
                         maj.add(game);
                         break;
                     case 1:
-                        CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(obj.getString("title"), obj.getString("subtitle"), R.drawable.taupe);
+                        CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"));
                         maj.add(pictureOnly);
                         break;
                     case 2:
-                        CardBigPictureObject bigPicture = new CardBigPictureObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("content"), R.drawable.taupe);
+                        CardBigPictureObject bigPicture = new CardBigPictureObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("content"), obj.getString("picture"));
                         maj.add(bigPicture);
                         break;
                     case 3:
-                        CardMediumRightObject mediumRight = new CardMediumRightObject(obj.getString("title"), obj.getString("subtitle"), R.drawable.taupe);
+                        CardMediumRightObject mediumRight = new CardMediumRightObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"));
                         maj.add(mediumRight);
                         break;
                 }
@@ -104,10 +93,5 @@ public class BddConnect {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
-
-    /*public void insertToLocal(){
-        DBHelper mydb = new DBHelper();
-        mydb.insertNews(0,2,"locale","test","test","test","test","test");
-    }*/
 
 }
