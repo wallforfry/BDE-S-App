@@ -1,6 +1,7 @@
 package fr.wallforfry.bdesapp;
 
 
+import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -13,6 +14,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.wallforfry.bdesapp.BDD.DBHelper;
+import fr.wallforfry.bdesapp.BDD.LocalBddConnect;
+import fr.wallforfry.bdesapp.Fragments.NewsFragment;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
@@ -37,6 +41,9 @@ public class BddConnect {
         }*/
 
         try {
+
+            DBHelper mydb = NewsFragment.dbShare; //mydb = à la base de donnée locale
+
             String myurl = "http://api.wallforfry.fr/getNews";
 
             URL url = new URL(myurl);
@@ -58,15 +65,20 @@ public class BddConnect {
             for (int i = 0; i < array.length(); i++) {
                 // On récupère un objet JSON du tableau
                 JSONObject obj = new JSONObject(array.getString(i));
-                // On fait le lien Personne - Objet JSON
+
+
+                //ajout en local
+                mydb.updateNews(i,obj.getInt("type"),obj.getString("title"),obj.getString("subtitle"),obj.getString("content"),obj.getString("picture"),obj.getString("action1"),obj.getString("action2"));
+
+
                 switch (obj.getInt("type")) {
                     case 0:
                         CardGameObject game = new CardGameObject(obj.getString("title"), R.drawable.taupe, obj.getString("subtitle"));
                         maj.add(game);
                         break;
                     case 1:
-                        CardPictureOnlyObject picture = new CardPictureOnlyObject(obj.getString("title"), obj.getString("subtitle"), R.drawable.taupe);
-                        maj.add(picture);
+                        CardPictureOnlyObject pictureOnly = new CardPictureOnlyObject(obj.getString("title"), obj.getString("subtitle"), R.drawable.taupe);
+                        maj.add(pictureOnly);
                         break;
                     case 2:
                         CardBigPictureObject bigPicture = new CardBigPictureObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("content"), R.drawable.taupe);
@@ -92,5 +104,10 @@ public class BddConnect {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
+    /*public void insertToLocal(){
+        DBHelper mydb = new DBHelper();
+        mydb.insertNews(0,2,"locale","test","test","test","test","test");
+    }*/
 
 }
