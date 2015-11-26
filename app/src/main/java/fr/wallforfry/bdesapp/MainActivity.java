@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startFragment() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        String pref = sp.getString("choix_demarrage", "Les News");
+        String pref = sp.getString("choix_demarrage", "-2");
         Fragment mFragment = null;
         String titleFragment = null;
         switch(pref){
