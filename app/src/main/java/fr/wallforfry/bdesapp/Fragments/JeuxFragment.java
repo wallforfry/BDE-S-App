@@ -1,12 +1,20 @@
 package fr.wallforfry.bdesapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.wallforfry.bdesapp.Adapter.CardGameAdapter;
+import fr.wallforfry.bdesapp.Adapter.NewsViewAdapter;
+import fr.wallforfry.bdesapp.BDD.BddConnect;
+import fr.wallforfry.bdesapp.BDD.DBHelper;
+import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
+import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
+import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
 
 /**
@@ -28,9 +42,15 @@ public class JeuxFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static String title = "Jeux";
+    private View rootView;
 
     private RecyclerView recyclerView;
     private List<CardGameObject> gameList = new ArrayList<>();
+    private List<CardGameObject> maj = new ArrayList<>();
+    private SwipeRefreshLayout swipeLayout;
+    private CardGameAdapter adapter = null;
+    private int id_To_Update = 0;
+    public static DBHelper dbShare = null;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -50,7 +70,7 @@ public class JeuxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_jeux, container, false);
+        rootView = inflater.inflate(R.layout.fragment_jeux, container, false);
 
        /* FloatingActionButton fab_game_1 = (FloatingActionButton) rootView.findViewById(R.id.game_button);
         fab_game_1.setOnClickListener(new View.OnClickListener() {
@@ -70,11 +90,23 @@ public class JeuxFragment extends Fragment {
             }
         });*/
 
-        //recycler view
-        //remplir la ville
-        ajouterJeux();
+        DBHelper mydb = new DBHelper(getActivity());
+        dbShare = mydb;
+        /*mydb.insertGames(0, 0, "Bienvenue", "com.tulipe.android.taupe", "http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg", "21/01/2015");
+        for(int i=1; i< 10; i++) {
+                mydb.insertGames(i, 10, "locale", "test", "test", "test");
+        }
+       /* if(mydb.gameExist(0) == false ) {
+            mydb.insertGames(0, 0, "Tape Taupe", "com.tulipe.android.taupe", "http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg", "29/11/2015");
+        }
+        else{
+            mydb.updateGames(0, 0, "Tape Taupe", "com.tulipe.android.taupe", "http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg", "29/11/2015");
+        }*/
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        //recycler view
+      //  ajouterJeux();
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewGame);
 
         //définit l'agencement des cellules, ici de façon verticale, comme une ListView
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -84,7 +116,26 @@ public class JeuxFragment extends Fragment {
 
         //puis créer un MyAdapter, lui fournir notre liste de villes.
         //cet adapter servira à remplir notre recyclerview
-        recyclerView.setAdapter(new CardGameAdapter(gameList));
+        //recyclerView.setAdapter(new CardGameAdapter(gameList));
+
+        adapter = new CardGameAdapter(gameList);
+        recyclerView.setAdapter(adapter);
+
+        getLocalGame();
+
+        swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainerGame);
+        swipeLayout.setColorSchemeColors(
+                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+
+        {
+            @Override
+            public void onRefresh() {
+                swipeLayout.setRefreshing(true);
+                Refresh();
+            }
+        });
 
         return rootView;
     }
@@ -93,17 +144,10 @@ public class JeuxFragment extends Fragment {
         return title;
     }
 
-    public void playStore(String appPackageName) {      //ouvre le market avec le package cible
-
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (android.content.ActivityNotFoundException anfe) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-        }
-    }
 
     private void ajouterJeux() {
         gameList.add(new CardGameObject("Tape Taupe", "http://psp-img.gamergen.com/taupe-chrono-007_0190000000327445.png", "com.tulipe.android.taupe"));
+        gameList.add(new CardGameObject("Doodle jump", "http://psp-img.gamergen.com/taupe-chrono-007_0190000000327445.png", "com.tulipe.android.doodleJump"));
        /* cities.add(new MyObject("France","http://www.telegraph.co.uk/travel/destination/article130148.ece/ALTERNATES/w620/parisguidetower.jpg", "com.umonistudio.tile"));
         cities.add(new MyObject("Angleterre","http://www.traditours.com/images/Photos%20Angleterre/ForumLondonBridge.jpg", ""));
         cities.add(new MyObject("Allemagne","http://tanned-allemagne.com/wp-content/uploads/2012/10/pano_rathaus_1280.jpg", ""));
@@ -112,5 +156,80 @@ public class JeuxFragment extends Fragment {
         cities.add(new MyObject("Russie","http://www.choisir-ma-destination.com/uploads/_large_russie-moscou2.jpg", ""));*/
     }
 
+    private void Refresh(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // fetch data
+            Thread task = null;
+            if (task == null) {
+                task = new Thread(
+                        new Runnable() {
+                            public void run() {
+                                maj = BddConnect.getGames();
+                            }
+                        });
+                task.start();
+            } else {
+                task.run();
+            }
 
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ajouterAutre();
+                }
+            }, 5000);
+        } else {
+            notConnected();
+        }
+    }
+
+    private void ajouterAutre() {
+
+        BddConnect.makeSnack(rootView, "Mise à jour réussie");
+        gameList = maj;
+
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(new CardGameAdapter(gameList));
+        swipeLayout.setRefreshing(false);
+    }
+
+    private void notConnected() {
+
+        BddConnect.makeSnack(rootView, "Mise à jour impossible");
+        swipeLayout.setRefreshing(false);
+    }
+
+    private void getLocalGame(){
+
+      /*  DBHelper mydb ;
+
+        mydb = new DBHelper(getActivity());
+*/
+        //int Value = 0; //id de la recherche
+        int vMax = dbShare.numberOfRowsGames();
+        //vMax = vMax;
+       for(int Value = 0; Value < vMax; Value++) {
+       //     int Value = 0;
+
+            Cursor rs = dbShare.getDataGames(Value);
+            id_To_Update = Value;
+            rs.moveToFirst();
+
+       // while(!rs.isLast()){
+       //     rs.moveToNext();
+
+            int type = rs.getInt(rs.getColumnIndex(DBHelper.GAMES_COLUMN_TYPE));
+            String title = rs.getString(rs.getColumnIndex(DBHelper.GAMES_COLUMN_TITLE));
+            //String title =  dbShare.getGameSubtitle(Value);
+            //String title =  "title";
+            String subtitle = rs.getString(rs.getColumnIndex(DBHelper.GAMES_COLUMN_SUBTITLE));
+            String picture = rs.getString(rs.getColumnIndex(DBHelper.GAMES_COLUMN_PICTURE));
+            String date = rs.getString(rs.getColumnIndex(DBHelper.GAMES_COLUMN_DATE));
+
+            CardGameObject game = new CardGameObject(title, picture, subtitle);
+            gameList.add(game);
+        }
+    }
 }

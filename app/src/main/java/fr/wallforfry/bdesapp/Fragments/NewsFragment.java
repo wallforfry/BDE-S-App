@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,21 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.wallforfry.bdesapp.Adapter.NewsViewAdapter;
 import fr.wallforfry.bdesapp.BDD.DBHelper;
-import fr.wallforfry.bdesapp.BddConnect;
-import fr.wallforfry.bdesapp.InputStreamOperations;
+import fr.wallforfry.bdesapp.BDD.BddConnect;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
@@ -187,11 +178,6 @@ public class NewsFragment extends Fragment {
 
     private void getLocalNews(){
 
-      /*  DBHelper mydb ;
-
-        mydb = new DBHelper(getActivity());
-*/
-        //int Value = 0; //id de la recherche
         for(int Value = 0; Value <10 ; Value++) {
             Cursor rs = dbShare.getData(Value);
             id_To_Update = Value;
