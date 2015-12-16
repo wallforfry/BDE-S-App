@@ -65,7 +65,7 @@ public class BddConnect {
 
 
                 //ajout en local
-                mydb.updateNews(i,obj.getInt("type"),obj.getString("title"),obj.getString("subtitle"),obj.getString("content"),obj.getString("picture"),obj.getString("action1"),obj.getString("action2"),obj.getString("date"));
+                mydb.updateNews(i, obj.getInt("id"), obj.getInt("type"),obj.getString("title"),obj.getString("subtitle"),obj.getString("content"),obj.getString("picture"),obj.getString("action1"),obj.getString("action2"),obj.getString("date"));
 
 
                 switch (obj.getInt("type")) {
@@ -124,6 +124,7 @@ public class BddConnect {
             JSONArray array = new JSONArray(jsonObject.getString("games"));
 
             arrayLength = array.length();
+            mydb.dropGames();
             // Pour tous les objets on récupère les infos
             for (int i = 0; i < array.length(); i++) {
                 // On récupère un objet JSON du tableau
@@ -140,11 +141,11 @@ public class BddConnect {
                 else{
                     lastId = 666;
                 }
-                if (lastId == obj.getInt("id")) {
+                /*if (lastId == obj.getInt("id")) {
                     mydb.updateGames(i, obj.getInt("id"), obj.getInt("type"), obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"), obj.getString("date"));
-                } else {
+                } else {*/
                     mydb.insertGames(i, obj.getInt("id"), obj.getInt("type"), obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"), obj.getString("date"));
-                }
+                //}
 
                 CardGameObject game = new CardGameObject(obj.getString("title"), obj.getString("picture"), obj.getString("subtitle"));
                 maj.add(game);

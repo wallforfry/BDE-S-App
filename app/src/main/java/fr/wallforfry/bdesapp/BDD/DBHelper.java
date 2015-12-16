@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String NEWS_TABLE_NAME = "app_news";
     public static final String NEWS_COLUMN_ID = "id";
+    public static final String NEWS_COLUMN_IDDB = "iddb";
     public static final String NEWS_COLUMN_TYPE = "type";
     public static final String NEWS_COLUMN_TITLE = "title";
     public static final String NEWS_COLUMN_SUBTITLE = "subtitle";
@@ -60,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table " + NEWS_TABLE_NAME +
-                        "(id integer, type integer, title text, subtitle text, content text, picture text, action1 text, action2 text, date text)"
+                        "(id integer, iddb integer, type integer, title text, subtitle text, content text, picture text, action1 text, action2 text, date text)"
         );
 
         db.execSQL(
@@ -77,11 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertNews  (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
+    public boolean insertNews  (int id, int iddb, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NEWS_COLUMN_ID, id);
+        contentValues.put(NEWS_COLUMN_IDDB, iddb);
         contentValues.put(NEWS_COLUMN_TYPE, type);
         contentValues.put(NEWS_COLUMN_TITLE, title);
         contentValues.put(NEWS_COLUMN_SUBTITLE, subtitle);
@@ -106,11 +108,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateNews (int id, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
+    public boolean updateNews (int id, int iddb, int type, String title, String subtitle, String content, String picture,String action1, String action2, String date)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NEWS_COLUMN_ID, id);
+        contentValues.put(NEWS_COLUMN_IDDB, iddb);
         contentValues.put(NEWS_COLUMN_TYPE, type);
         contentValues.put(NEWS_COLUMN_TITLE, title);
         contentValues.put(NEWS_COLUMN_SUBTITLE, subtitle);
@@ -229,6 +232,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.delete(GAMES_TABLE_NAME,
                 "id = ? ",
                 new String[] { Integer.toString(id) });
+    }
+
+    public void dropGames (){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(GAMES_TABLE_NAME, null, null);
     }
 
     public ArrayList<String> getAllGames()

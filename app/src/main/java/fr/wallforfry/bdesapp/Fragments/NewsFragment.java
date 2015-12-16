@@ -117,9 +117,9 @@ public class NewsFragment extends Fragment {
     private void initNews() {
         DBHelper mydb = new DBHelper(getActivity());
         dbShare = mydb;
-        mydb.insertNews(0,2,"Bienvenue","Application du BDE","Pour accéder pour la première fois aux news, glissez vers le bas","http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg","test","test","test");
+        mydb.insertNews(0,0,2,"Bienvenue","Application du BDE","Pour accéder pour la première fois aux news, glissez vers le bas","http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg","test","test","test");
         for(int i=1; i< 10; i++) {
-            mydb.insertNews(i, 10, "locale", "test", "test", "test", "test", "test", "test");
+            mydb.insertNews(i,i, 10, "locale", "test", "test", "test", "test", "test", "test");
         }
     }
 
