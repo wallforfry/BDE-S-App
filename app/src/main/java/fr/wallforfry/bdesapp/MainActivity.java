@@ -1,12 +1,13 @@
 package fr.wallforfry.bdesapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -48,6 +52,65 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        startFragment();
+    }
+
+    private void loadHeader() {
+        String identifiant_recu = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            identifiant_recu = extras.getString("identifiant");
+        }
+        ((TextView) findViewById(R.id.nav_identifiant)).setText(identifiant_recu);
+    }
+
+    private void startFragment() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String pref = sp.getString("choix_demarrage", "-2");
+        Fragment mFragment = null;
+        String titleFragment = null;
+        switch(pref){
+            default:
+
+                break;
+            case "-2":
+                // Handle the news action
+                mFragment = NewsFragment.newInstance(0);
+                titleFragment = NewsFragment.getTitle();
+                break;
+            case "-1":
+                AgendaFragment.newInstance(0);
+                titleFragment = AgendaFragment.getTitle();
+                break;
+            case "0":
+                mFragment = JeuxFragment.newInstance(0);
+                titleFragment = JeuxFragment.getTitle();
+                break;
+            case "1":
+                mFragment = MesClubsFragment.newInstance(0);
+                titleFragment = MesClubsFragment.getTitle();
+                break;
+            case "2":
+                mFragment = AnnalesFragment.newInstance(0);
+                titleFragment = AnnalesFragment.getTitle();
+                break;
+        }
+
+        if(mFragment != null){
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, mFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            if(titleFragment != null){
+                changeTitle(titleFragment);
+            }
+            else{
+                changeTitle(getString(R.string.app_name));
+            }
+        }
     }
 
     @Override
@@ -88,32 +151,43 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment mFragment = null;
+        Intent i = null;
         String titleFragment = null;
+        switch(id){
+            default:
 
-        if (id == R.id.nav_news) {
-            // Handle the news action
-            mFragment = NewsFragment.newInstance(0);
-            titleFragment = NewsFragment.getTitle();
-        } else if (id == R.id.nav_agenda) {
-            mFragment = AgendaFragment.newInstance(0);
-            titleFragment = AgendaFragment.getTitle();
-        } else if (id == R.id.nav_jeux) {
-            mFragment = JeuxFragment.newInstance(0);
-            titleFragment = JeuxFragment.getTitle();
-        } else if (id == R.id.nav_mes_clubs) {
-            mFragment = MesClubsFragment.newInstance(0);
-            titleFragment = MesClubsFragment.getTitle();
-        } else if (id == R.id.nav_annales) {
-            mFragment = AnnalesFragment.newInstance(0);
-            titleFragment = AnnalesFragment.getTitle();
-        } else if (id == R.id.nav_settings) {
-            Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_help) {
-            Intent i = new Intent(getApplicationContext(), HelpActivity.class);
-            startActivity(i);
-        } else if (id == R.id.nav_signout) {
-
+                break;
+            case R.id.nav_news:
+                // Handle the news action
+                mFragment = NewsFragment.newInstance(0);
+                titleFragment = NewsFragment.getTitle();
+                break;
+            case R.id.nav_agenda:
+                mFragment = AgendaFragment.newInstance(0);
+                titleFragment = AgendaFragment.getTitle();
+                break;
+            case R.id.nav_jeux:
+                mFragment = JeuxFragment.newInstance(0);
+                titleFragment = JeuxFragment.getTitle();
+                break;
+            case R.id.nav_mes_clubs:
+                mFragment = MesClubsFragment.newInstance(0);
+                titleFragment = MesClubsFragment.getTitle();
+                break;
+            case R.id.nav_annales:
+                mFragment = AnnalesFragment.newInstance(0);
+                titleFragment = AnnalesFragment.getTitle();
+                break;
+            case R.id.nav_settings:
+                i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_help:
+                i = new Intent(getApplicationContext(), HelpActivity.class);
+                startActivity(i);
+                break;
+            case R.id.nav_signout:
+                break;
         }
 
         if(mFragment != null){

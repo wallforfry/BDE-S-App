@@ -10,5 +10,16 @@
     <color name="colorSecondaryText">#727272</color>
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
-    <color name="statusBarColor">#543931</color>
+    <color name="statusBarColor">#5d4037</color>
+
+<!-- Couleur de noël
+        <color name="colorPrimary">#F44336</color>
+        <color name="colorPrimaryDark">#D32F2F</color>
+        <color name="colorPrimaryLight">#FFCDD2</color>
+        <color name="colorAccent">#536DFE</color>
+        <color name="colorPrimaryText">#212121</color>
+        <color name="colorSecondaryText">#727272</color>
+        <color name="colorIcons">#FFFFFF</color>
+        <color name="colorDivider">#B6B6B6</color>-->
+
 </resources>

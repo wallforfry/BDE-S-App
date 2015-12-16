@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import fr.wallforfry.bdesapp.R;
 
@@ -39,6 +42,22 @@ public class AgendaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
+        TextView rslt = (TextView) rootView.findViewById(R.id.textView3);
+        CalendarView view = (CalendarView) rootView.findViewById(R.id.calendarView);
+       /* long me = calendar.getDate();
+        rslt.setText(String.valueOf(me));*/
+
+
+        view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+            @Override
+            public void onSelectedDayChange(CalendarView arg0, int year, int month,
+                                            int date) {
+                month = month+1;
+                Toast.makeText(getActivity(), date + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return rootView;
     }
 
