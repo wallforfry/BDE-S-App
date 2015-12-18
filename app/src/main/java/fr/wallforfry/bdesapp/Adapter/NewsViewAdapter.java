@@ -74,6 +74,8 @@ public class NewsViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case IMAGE:
                 View v2 = inflater.inflate(R.layout.cell_picture_only, viewGroup, false);
+                // View v2 = inflater.inflate(R.layout.cell_cards_medium_right, viewGroup, false);
+                //View v2 = inflater.inflate(R.layout.cell_big_picture, viewGroup, false);
                 viewHolder = new CardPictureOnlyViewHolder(v2);
                 break;
             case BIG_PICTURE:

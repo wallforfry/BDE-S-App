@@ -4,6 +4,7 @@ package fr.wallforfry.bdesapp.Object;
  * Created by wallerand on 15/11/2015.
  */
 public class CardPictureOnlyObject {
+
     private String title;
     private String subtitle;
     private String imageUrl;

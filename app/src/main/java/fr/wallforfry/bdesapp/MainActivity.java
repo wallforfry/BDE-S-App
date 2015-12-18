@@ -1,5 +1,6 @@
 package fr.wallforfry.bdesapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,11 +14,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import fr.wallforfry.bdesapp.BDD.BddConnect;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
 import fr.wallforfry.bdesapp.Fragments.JeuxFragment;
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,6 +63,27 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         startFragment();
+
+        String pp = "https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xal1/v/t1.0-9/12341376_106714416366568_1797907413045364844_n.jpg?oh=6ba5709fb6d54278d0659d383e62f1e1&oe=571990A4&__gda__=1461206259_ebc596fbec874defc79c681b1cee7e0d";
+        String hp = "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/12339576_107631049608238_3285364819746079268_o.jpg";
+
+        View header = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        ImageView profilePicture = (ImageView) header.findViewById(R.id.profilePicture);
+        ImageView headerPicture = (ImageView) header.findViewById(R.id.headerPicture);
+
+        Picasso.with(profilePicture.getContext()).load(pp).fit().centerCrop().into(profilePicture);
+        Picasso.with(headerPicture.getContext()).load(hp).centerCrop().fit().into(headerPicture);
+
+        TextView name = (TextView) header.findViewById(R.id.nav_identifiant);
+        TextView town = (TextView) header.findViewById(R.id.nav_town);
+
+        name.setText("Benjamin Butown");
+        town.setText("New York");
+
+    }
+
+    private void test(){
+
     }
 
     private void loadHeader() {
@@ -187,6 +217,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
                 break;
             case R.id.nav_signout:
+                test();
                 break;
         }
 

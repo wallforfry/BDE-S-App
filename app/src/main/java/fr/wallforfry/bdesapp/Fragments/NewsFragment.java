@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,7 +72,6 @@ public class NewsFragment extends Fragment {
 
         initNews(); //init de la bdd pour première utilisation
 
-
       /*//permet de récupérer les préférences
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String pref = sp.getString("example_text", "YourName");
@@ -91,7 +91,6 @@ public class NewsFragment extends Fragment {
         //cet adapter servira à remplir notre recyclerview
         adapter = new NewsViewAdapter((gameList));
         recyclerView.setAdapter(adapter);
-
         getLocalNews();
 
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
@@ -119,7 +118,7 @@ public class NewsFragment extends Fragment {
         dbShare = mydb;
         mydb.insertNews(0,0,2,"Bienvenue","Application du BDE","Pour accéder pour la première fois aux news, glissez vers le bas","http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg","test","test","test");
         for(int i=1; i< 10; i++) {
-            mydb.insertNews(i,i, 10, "locale", "test", "test", "test", "test", "test", "test");
+            mydb.insertNews(i,i, -1, "locale", "test", "test", "test", "test", "test", "test");
         }
     }
 
