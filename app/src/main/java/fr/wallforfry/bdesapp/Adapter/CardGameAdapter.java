@@ -31,7 +31,7 @@ public class CardGameAdapter extends RecyclerView.Adapter<CardGameViewHolder> {
         return new CardGameViewHolder(view);
     }
 
-    //c'est ici que nous allons remplir notre cellule avec le texte/image de chaque MyObjects
+    //on rempli les cards
     @Override
     public void onBindViewHolder(CardGameViewHolder myViewHolder, int position) {
         CardGameObject myObject = list.get(position);

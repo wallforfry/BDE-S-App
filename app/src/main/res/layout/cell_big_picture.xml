@@ -74,8 +74,8 @@
                     android:paddingTop="5dp" />
 
                 <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/expend"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
@@ -83,7 +83,8 @@
                     android:layout_alignParentBottom="false"
                     android:layout_alignBottom="@+id/subtitle"
                     android:background="@drawable/round_corner"
-                    android:backgroundTint="@color/colorAccent" />
+                    android:backgroundTint="@color/colorAccent"
+                    android:layout_marginRight="10dp" />
             </RelativeLayout>
 
         </RelativeLayout>

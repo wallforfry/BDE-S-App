@@ -3,6 +3,7 @@ package fr.wallforfry.bdesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,25 +57,28 @@ public class MainActivity extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+
+        if(screenType() == false) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+        }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         startFragment();
 
-        String pp = "https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xal1/v/t1.0-9/12341376_106714416366568_1797907413045364844_n.jpg?oh=6ba5709fb6d54278d0659d383e62f1e1&oe=571990A4&__gda__=1461206259_ebc596fbec874defc79c681b1cee7e0d";
-        String hp = "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xpf1/t31.0-8/12339576_107631049608238_3285364819746079268_o.jpg";
+        String pp = "http://api.wallforfry.fr/photos/butown_new_york.jpg";
+        String hp = "http://api.wallforfry.fr/photos/new_york.jpg";
 
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main);
         ImageView profilePicture = (ImageView) header.findViewById(R.id.profilePicture);
         ImageView headerPicture = (ImageView) header.findViewById(R.id.headerPicture);
 
         Picasso.with(profilePicture.getContext()).load(pp).fit().centerCrop().into(profilePicture);
-        Picasso.with(headerPicture.getContext()).load(hp).centerCrop().fit().into(headerPicture);
+        Picasso.with(headerPicture.getContext()).load(hp).fit().centerCrop().into(headerPicture);
 
         TextView name = (TextView) header.findViewById(R.id.nav_identifiant);
         TextView town = (TextView) header.findViewById(R.id.nav_town);
@@ -82,8 +88,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void test(){
-
+    private boolean screenType(){
+        if(findViewById(R.id.two_pan) != null){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     private void loadHeader() {
@@ -146,7 +157,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START) && screenType() == false) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -217,7 +228,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
                 break;
             case R.id.nav_signout:
-                test();
                 break;
         }
 
@@ -237,7 +247,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(!screenType()){
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 
