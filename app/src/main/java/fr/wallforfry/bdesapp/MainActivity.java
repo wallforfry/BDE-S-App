@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        if(screenType() == false) {
+        if(!screenType()) {
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.setDrawerListener(toggle);
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START) && screenType() == false) {
+        if (drawer.isDrawerOpen(GravityCompat.START) && !screenType()) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();

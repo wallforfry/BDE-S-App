@@ -56,38 +56,38 @@
 
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
                     android:background="?android:selectableItemBackground"
                     tools:text="Title"
                     android:fontFamily="sans-serif"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="24sp"
-                    android:paddingTop="24dp"
+                    android:textSize="22sp"
+                    android:paddingTop="20dp"
                     android:paddingLeft="16dp" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="250dp"
+                    android:layout_height="20dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     tools:text="Subtitle"
                     android:id="@+id/subtitle"
                     android:layout_below="@+id/title"
                     android:paddingLeft="16dp"
-                    android:textSize="14sp"
-                    android:paddingTop="5dp" />
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/subtitle"
                     android:layout_alignParentRight="false"
-                    android:paddingLeft="8dp">
+                    android:paddingLeft="8dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/subtitle">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Action 1"
+                        android:text="Ouvrir"
                         android:id="@+id/textView2"
                         android:textColor="@color/colorPrimaryText"
                         android:textStyle="bold"
@@ -97,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Action 2"
+                        android:text="Partager"
                         android:id="@+id/textView3"
                         android:textColor="@color/colorAccent"
                         android:layout_toRightOf="@+id/textView2"
