@@ -78,7 +78,7 @@ public class BddConnect {
                         maj.add(pictureOnly);
                         break;
                     case 2:
-                        CardBigPictureObject bigPicture = new CardBigPictureObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("content"), obj.getString("picture"));
+                        CardBigPictureObject bigPicture = new CardBigPictureObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("content"), obj.getString("picture"), obj.getString("action1"), obj.getString("action2"));
                         maj.add(bigPicture);
                         break;
                     case 3:

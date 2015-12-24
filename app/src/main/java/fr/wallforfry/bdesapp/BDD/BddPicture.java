@@ -32,7 +32,7 @@ public class BddPicture {
 
             DBHelper mydb = JeuxFragment.dbShare; //mydb = à la base de donnée locale
 
-            String myurl = "http://api.wallforfry.fr/getProfilePicture";
+            String myurl = "http://api.wallforfry.fr/getPictures";
 
             URL url = new URL(myurl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -48,7 +48,7 @@ public class BddPicture {
             // On récupère le JSON complet
             JSONObject jsonObject = new JSONObject(result);
             // On récupère le tableau d'objets qui nous concernent
-            JSONArray array = new JSONArray(jsonObject.getString("games"));
+            JSONArray array = new JSONArray(jsonObject.getString("pictures"));
 
             arrayLength = array.length();
             mydb.dropGames();

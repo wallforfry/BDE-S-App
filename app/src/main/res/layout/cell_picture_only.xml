@@ -57,6 +57,19 @@
                     android:textColor="@color/colorIcons"
                     android:paddingRight="16dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Partager"
+                    android:id="@+id/partager"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:padding="8dp"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/subtitle" />
+
             </RelativeLayout>
 
         </RelativeLayout>

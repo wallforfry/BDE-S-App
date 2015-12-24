@@ -208,7 +208,7 @@ public class NewsFragment extends Fragment {
                     gameList.add(pictureOnly);
                     break;
                 case 2:
-                    CardBigPictureObject bigPicture = new CardBigPictureObject(title, subtitle, content, picture);
+                    CardBigPictureObject bigPicture = new CardBigPictureObject(title, subtitle, content, picture, action1, action2);
                     gameList.add(bigPicture);
                     break;
                 case 3:

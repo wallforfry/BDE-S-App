@@ -75,8 +75,6 @@ public class CardMediumRightViewHolder extends RecyclerView.ViewHolder{
             }
         });
 
-
-
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
@@ -86,12 +84,7 @@ public class CardMediumRightViewHolder extends RecyclerView.ViewHolder{
         subtitle.setText(myObject.getSubtitle());
         valueSubtitle = myObject.getSubtitle();
 
-       // if(myObject.getActionOuvrir() != "") {
-            actionOuvrir = myObject.getActionOuvrir();
-        /*}
-        else{
-            ouvrir.setVisibility(View.INVISIBLE);
-        }*/
+        actionOuvrir = myObject.getActionOuvrir();
         actionPartager = myObject.getActionPartager();
         Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
         //imageView.setImageResource(myObject.getImageUrl());

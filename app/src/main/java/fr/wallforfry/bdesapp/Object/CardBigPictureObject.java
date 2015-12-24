@@ -8,13 +8,17 @@ public class CardBigPictureObject {
     private String subtitle;
     private String text;
     private String imageUrl;
+    private String actionOuvrir;
+    private String actionPartager;
     private Boolean open = false;
 
-    public CardBigPictureObject(String title, String subtitle, String text, String imageUrl) {
+    public CardBigPictureObject(String title, String subtitle, String text, String imageUrl, String actionOuvrir, String actionPartager) {
         this.title = title;
         this.subtitle = subtitle;
         this.text = text;
         this.imageUrl = imageUrl;
+        this.actionOuvrir = actionOuvrir;
+        this.actionPartager = actionPartager;
     }
 
     public String getText() {
@@ -55,5 +59,21 @@ public class CardBigPictureObject {
 
     public void setOpen(Boolean open) {
         this.open = open;
+    }
+
+    public String getActionOuvrir() {
+        return actionOuvrir;
+    }
+
+    public void setActionOuvrir(String actionOuvrir) {
+        this.actionOuvrir = actionOuvrir;
+    }
+
+    public String getActionPartager() {
+        return actionPartager;
+    }
+
+    public void setActionPartager(String actionPartager) {
+        this.actionPartager = actionPartager;
     }
 }
