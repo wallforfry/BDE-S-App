@@ -28,6 +28,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import javax.security.auth.callback.Callback;
+
 import fr.wallforfry.bdesapp.BDD.BddConnect;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
 
         Picasso.with(profilePicture.getContext()).load(pp).fit().centerCrop().into(profilePicture);
         Picasso.with(headerPicture.getContext()).load(hp).fit().centerCrop().into(headerPicture);
+
 
         TextView name = (TextView) header.findViewById(R.id.nav_identifiant);
         TextView town = (TextView) header.findViewById(R.id.nav_town);
