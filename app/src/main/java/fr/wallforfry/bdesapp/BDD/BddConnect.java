@@ -82,7 +82,7 @@ public class BddConnect {
                         maj.add(bigPicture);
                         break;
                     case 3:
-                        CardMediumRightObject mediumRight = new CardMediumRightObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"));
+                        CardMediumRightObject mediumRight = new CardMediumRightObject(obj.getString("title"), obj.getString("subtitle"), obj.getString("picture"), obj.getString("action1"), obj.getString("action2"));
                         maj.add(mediumRight);
                         break;
                 }

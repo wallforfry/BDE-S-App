@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -39,7 +40,7 @@ public class NewsFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static String title = "Les News";
-    private View rootView;
+    private static View rootView;
 
     private RecyclerView recyclerView;
     private List gameList = new ArrayList<>();
@@ -111,6 +112,11 @@ public class NewsFragment extends Fragment {
 
     public static String getTitle() {
         return title;
+    }
+
+    public static void makeSnack(String message) {
+        Snackbar.make(rootView, message, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     private void initNews() {
@@ -206,7 +212,7 @@ public class NewsFragment extends Fragment {
                     gameList.add(bigPicture);
                     break;
                 case 3:
-                    CardMediumRightObject mediumRight = new CardMediumRightObject(title, subtitle, picture);
+                    CardMediumRightObject mediumRight = new CardMediumRightObject(title, subtitle, picture, action1, action2);
                     gameList.add(mediumRight);
                     break;
             }
