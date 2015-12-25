@@ -68,7 +68,8 @@
                     android:padding="8dp"
                     android:layout_alignParentBottom="false"
                     android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/subtitle" />
+                    android:layout_alignTop="@+id/subtitle"
+                    android:elevation="6dp" />
 
             </RelativeLayout>
 

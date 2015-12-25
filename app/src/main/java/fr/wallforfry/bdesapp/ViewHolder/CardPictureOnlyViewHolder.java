@@ -95,7 +95,7 @@ public class CardPictureOnlyViewHolder extends RecyclerView.ViewHolder{
         Uri bmpUri = null;
         try {
             File file =  new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS), "share_image_" + System.currentTimeMillis() + ".png");
+                    Environment.DIRECTORY_DOWNLOADS), "Benjamin_Butown_" + valueTitle + "_" + System.currentTimeMillis() + ".png");
             file.getParentFile().mkdirs();
             FileOutputStream out = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
