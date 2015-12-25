@@ -1,6 +1,8 @@
 package fr.wallforfry.bdesapp.Fragments;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -10,12 +12,9 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,6 +29,7 @@ import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.Object.CardMediumRightObject;
 import fr.wallforfry.bdesapp.Object.CardPictureOnlyObject;
 import fr.wallforfry.bdesapp.R;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * Created by wallerand on 11/11/2015.
@@ -85,7 +85,15 @@ public class NewsFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
         //définit l'agencement des cellules, ici de façon verticale, comme une ListView
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }
+        // Attach the layout manager to the recycler view
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
         //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -94,6 +102,7 @@ public class NewsFragment extends Fragment {
         //cet adapter servira à remplir notre recyclerview
         adapter = new NewsViewAdapter((gameList));
         recyclerView.setAdapter(adapter);
+        //recyclerView.setItemAnimator(new SlideInUpAnimator());
         getLocalNews();
 
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
@@ -154,7 +163,7 @@ public class NewsFragment extends Fragment {
         swipeLayout.setRefreshing(false);
     }
 
-    public void Refresh(){
+    private void Refresh(){
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {

@@ -2,6 +2,7 @@ package fr.wallforfry.bdesapp.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -109,7 +111,13 @@ public class JeuxFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewGame);
 
         //définit l'agencement des cellules, ici de façon verticale, comme une ListView
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }
+        // Attach the layout manager to the recycler view
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
         //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
