@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -78,7 +79,18 @@ public class CardPictureOnlyViewHolder extends RecyclerView.ViewHolder{
         valueTitle = myObject.getTitle();
         subtitle.setText(myObject.getSubtitle());
         valueSubtitle = myObject.getSubtitle();
-        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        view.findViewById(R.id.progressBarPictureOnly).setVisibility(View.VISIBLE);
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                view.findViewById(R.id.progressBarPictureOnly).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                imageView.setImageResource(R.drawable.problem);
+            }
+        });
         //imageView.setImageResource(myObject.getImageUrl());
     }
 

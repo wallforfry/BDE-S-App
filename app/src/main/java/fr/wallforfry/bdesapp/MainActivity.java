@@ -3,7 +3,9 @@ package fr.wallforfry.bdesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -27,8 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import javax.security.auth.callback.Callback;
+import com.squareup.picasso.Target;
 
 import fr.wallforfry.bdesapp.BDD.BddConnect;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
@@ -76,12 +77,11 @@ public class MainActivity extends AppCompatActivity
         String hp = "http://api.wallforfry.fr/photos/new_york.jpg";
 
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        ImageView profilePicture = (ImageView) header.findViewById(R.id.profilePicture);
-        ImageView headerPicture = (ImageView) header.findViewById(R.id.headerPicture);
+        final ImageView profilePicture = (ImageView) header.findViewById(R.id.profilePicture);
+        final ImageView headerPicture = (ImageView) header.findViewById(R.id.headerPicture);
 
         Picasso.with(profilePicture.getContext()).load(pp).fit().centerCrop().into(profilePicture);
         Picasso.with(headerPicture.getContext()).load(hp).fit().centerCrop().into(headerPicture);
-
 
         TextView name = (TextView) header.findViewById(R.id.nav_identifiant);
         TextView town = (TextView) header.findViewById(R.id.nav_town);

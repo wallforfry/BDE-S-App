@@ -199,7 +199,6 @@ public class JeuxFragment extends Fragment {
         gameList = maj;
 
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(new CardGameAdapter(gameList));
         swipeLayout.setRefreshing(false);
     }
 

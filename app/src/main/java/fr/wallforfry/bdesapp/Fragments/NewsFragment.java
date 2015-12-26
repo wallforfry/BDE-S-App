@@ -133,7 +133,7 @@ public class NewsFragment extends Fragment {
     private void initNews() {
         DBHelper mydb = new DBHelper(getActivity());
         dbShare = mydb;
-        mydb.insertNews(0,0,2,"Bienvenue","Application du BDE","Pour accéder pour la première fois aux news, glissez vers le bas","http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg","test","test","test");
+        mydb.insertNews(0, 0, 2, "Bienvenue", "Application du BDE", "Pour accéder pour la première fois aux news, glissez vers le bas", "http://www.g2j.fr/images/M_images/eiffel-tower-paris-2.jpg", "test", "test", "test");
         for(int i=1; i< 10; i++) {
             mydb.insertNews(i,i, -1, "locale", "test", "test", "test", "test", "test", "test");
         }
@@ -149,11 +149,9 @@ public class NewsFragment extends Fragment {
         gameList.add(new CardBigPictureObject("Le nom du chien", "28/05/1999", "Je suis nee le 28 mai 199 a 15h15 à paris à l'hopital Robert Debré danns le 19e arrondissement il faisait beau mon frere avait deux ans quand je uis nee. j'aime le chocolat et j'adore faire des gateaux au chocolat", R.drawable.paris));
         */
 
-            BddConnect.makeSnack(rootView, "Mise à jour réussie");
-            gameList = maj;
-
+        BddConnect.makeSnack(rootView, "Mise à jour réussie");
+        gameList = maj;
         adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(new NewsViewAdapter(gameList));
         swipeLayout.setRefreshing(false);
     }
 

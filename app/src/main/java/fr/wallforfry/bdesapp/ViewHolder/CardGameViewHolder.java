@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import fr.wallforfry.bdesapp.Object.CardGameObject;
@@ -23,10 +24,13 @@ public class CardGameViewHolder extends RecyclerView.ViewHolder{
     private ImageView imageView;
     private String gameName = null;
 
+    private View view;
+
     //itemView est la vue correspondante à 1 cellule
     public CardGameViewHolder(final View itemView) {
         super(itemView);
 
+        view = itemView;
         //c'est ici que l'on fait nos findView
 
         textViewView = (TextView) itemView.findViewById(R.id.text);
@@ -58,7 +62,18 @@ public class CardGameViewHolder extends RecyclerView.ViewHolder{
     public void bind(CardGameObject myObject){
         textViewView.setText(myObject.getText());
         gameName = myObject.getPkgName();
-        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        view.findViewById(R.id.progressBarGame).setVisibility(View.VISIBLE);
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                view.findViewById(R.id.progressBarGame).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                imageView.setImageResource(R.drawable.problem);
+            }
+        });
         //imageView.setImageResource(myObject.getImageUrl());
     }
 

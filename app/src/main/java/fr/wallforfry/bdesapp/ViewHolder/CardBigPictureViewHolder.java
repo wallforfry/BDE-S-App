@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
@@ -108,7 +109,18 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
         }else{
             moreContent(myObject);
         }
-        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+        view.findViewById(R.id.progressBarBigPicture).setVisibility(View.VISIBLE);
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                view.findViewById(R.id.progressBarBigPicture).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                imageView.setImageResource(R.drawable.problem);
+            }
+        });
         //imageView.setImageResource(myObject.getImageUrl());
     }
 
@@ -122,7 +134,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
 
     public void lessContent(CardBigPictureObject myObject){
         contenu.setText("");
-        contenu.setVisibility(View.INVISIBLE);
+        contenu.setVisibility(View.GONE);
         contenu.setPadding(0,8,0,0);
         expend.setImageResource(R.drawable.ic_expand_less_black_24dp);
         myObject.setOpen(false);

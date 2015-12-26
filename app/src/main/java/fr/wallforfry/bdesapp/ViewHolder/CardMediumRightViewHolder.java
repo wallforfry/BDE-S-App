@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
@@ -86,7 +87,19 @@ public class CardMediumRightViewHolder extends RecyclerView.ViewHolder{
 
         actionOuvrir = myObject.getActionOuvrir();
         actionPartager = myObject.getActionPartager();
-        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView);
+
+        view.findViewById(R.id.progressBarMediumRight).setVisibility(View.VISIBLE);
+        Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                view.findViewById(R.id.progressBarMediumRight).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                imageView.setImageResource(R.drawable.problem);
+            }
+        });
         //imageView.setImageResource(myObject.getImageUrl());
     }
 
