@@ -10,6 +10,8 @@
                     android:title="Agenda" />
                 <item android:id="@+id/nav_jeux" android:icon="@drawable/ic_games_white_24dp"
                     android:title="Jeux" />
+                <item android:id="@+id/nav_scan" android:icon="@drawable/ic_qrcode_scanner_black"
+                    android:title="Scanner" />
         </group>
         </menu>
     </item>

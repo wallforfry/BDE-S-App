@@ -37,9 +37,12 @@ import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
 import fr.wallforfry.bdesapp.Fragments.JeuxFragment;
 import fr.wallforfry.bdesapp.Fragments.MesClubsFragment;
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
+import fr.wallforfry.bdesapp.Fragments.QrCodeFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    static boolean alReadyStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +74,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        startFragment();
+       if(alReadyStart == false ){startFragment();}
 
-        String pp = "http://api.wallforfry.fr/photos/butown_new_york.jpg";
+        String pp = "http://api.wallforfry.fr/photos/butown_new_york.png";
         String hp = "http://api.wallforfry.fr/photos/new_york.jpg";
 
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main);
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        if(mFragment != null){
+        if(mFragment != null && alReadyStart == false){
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, mFragment)
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity
             else{
                 changeTitle(getString(R.string.app_name));
             }
+            alReadyStart = true;
         }
     }
 
@@ -213,6 +217,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_jeux:
                 mFragment = JeuxFragment.newInstance(0);
                 titleFragment = JeuxFragment.getTitle();
+                break;
+            case R.id.nav_scan:
+                mFragment = QrCodeFragment.newInstance(0);
+                titleFragment = QrCodeFragment.getTitle();
                 break;
             case R.id.nav_mes_clubs:
                 mFragment = MesClubsFragment.newInstance(0);

@@ -102,7 +102,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public int numberOfRows(){
+    public int numberOfRowsNews(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, NEWS_TABLE_NAME);
         return numRows;

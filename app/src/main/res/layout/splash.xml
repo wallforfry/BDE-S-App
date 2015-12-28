@@ -29,11 +29,10 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/imageView2"
                     android:layout_gravity="center_horizontal|top"
-                    android:src="@drawable/butown_new_york"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:background="@drawable/round_corner" />
+                    android:src="@drawable/butown_new_york" />
 
             </RelativeLayout>
 

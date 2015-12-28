@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout
+    android:id="@+id/frame_scan"
+    android:layout_width="150dip"
+    android:layout_height="100dip"
+    android:layout_gravity="center_horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/zxing_barcode_scanner" />
+
+</FrameLayout>

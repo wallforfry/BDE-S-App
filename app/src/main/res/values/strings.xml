@@ -12,7 +12,7 @@
 
     <string name="game_1_package">com.tulipe.game.android</string>
 
-    <string name="text_aide">Vous pouvez obtenir de l\'aide ici ou envoyer un commentaire en cliquant sur le bouton en bas à droite. \n\n N\'hésitez pas à nous offrir un cookie si vous aimez notre travail..</string>
+    <string name="text_aide">Vous pouvez obtenir de l\'aide ici ou envoyer un commentaire en cliquant sur le bouton en bas à droite.\n\nN\'hésitez pas à nous offrir un cookie si vous aimez notre travail..</string>
     <string name="title_activity_settings">Paramètres</string>
 
     <!-- Strings related to Settings -->
