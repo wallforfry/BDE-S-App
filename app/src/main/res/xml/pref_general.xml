@@ -39,4 +39,23 @@
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 
+    <!--<ListPreference
+        android:key="PREF_ACCOUNT_NAME"
+        android:title="Choix du compte"
+        android:entries="@array/pref_choix_demarrage_titles"
+        android:entryValues="@array/pref_choix_demarrage_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <PreferenceScreen
+        android:key="account_settings"
+        android:title="Account Settings"
+        android:summary="Sync frequency, notifications, etc.">
+        <intent
+            android:action="fm.last.android.activity.Preferences.ACCOUNT_SETUP"
+            android:targetPackage="fm.last.android"
+            android:targetClass="fm.last.android.activity.Preferences" />
+    </PreferenceScreen>-->
+
+
 </PreferenceScreen>
