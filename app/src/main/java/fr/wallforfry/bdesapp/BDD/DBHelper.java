@@ -48,6 +48,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String GAMES_COLUMN_PICTURE = "picture";
     public static final String GAMES_COLUMN_DATE = "date";
 
+    public static final String AGENDA_TABLE_NAME = "app_agenda";
+    public static final String AGENDA_COLUMN_ID = "id";
+    public static final String AGENDA_COLUMN_IDDB = "iddb";
+    public static final String AGENDA_COLUMN_SUMMARY = "summary";
+    public static final String AGENDA_COLUMN_DESCRIPTION = "description";
+    public static final String AGENDA_COLUMN_START = "start";
+    public static final String AGENDA_COLUMN_END = "end";
+    public static final String AGENDA_COLUMN_LOCATION = "location";
+
     private HashMap hp;
     int id_To_Update = 0;
 
@@ -68,6 +77,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table " + GAMES_TABLE_NAME +
                         "(id integer, iddb integer, type integer, title text, subtitle text, picture text, date text)"
         );
+        db.execSQL(
+                "create table " + AGENDA_TABLE_NAME +
+                        "(id integer, iddb text, summary text, description text, start text, end text, location text)"
+        );
     }
 
     @Override
@@ -75,6 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + NEWS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + GAMES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + AGENDA_TABLE_NAME);
         onCreate(db);
     }
 
@@ -134,9 +148,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id) });
     }
 
+    public void dropNews (){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(NEWS_TABLE_NAME, null, null);
+    }
+
+
     public ArrayList<String> getAllNews()
     {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -222,7 +242,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(GAMES_COLUMN_SUBTITLE, subtitle);
         contentValues.put(GAMES_COLUMN_PICTURE, picture);
         contentValues.put(GAMES_COLUMN_DATE, date);
-        db.update(GAMES_TABLE_NAME, contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.update(GAMES_TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(id)});
         return true;
     }
 
@@ -241,7 +261,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getAllGames()
     {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -250,6 +270,80 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(GAMES_COLUMN_TITLE)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    ///////////////////////////////AGENDA////////////////////////////////
+
+    public boolean insertEvent  (int id, String iddb, String summary, String description, String start, String end, String location)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AGENDA_COLUMN_ID, id);
+        contentValues.put(AGENDA_COLUMN_IDDB, iddb);
+        contentValues.put(AGENDA_COLUMN_SUMMARY, summary);
+        contentValues.put(AGENDA_COLUMN_DESCRIPTION, description);
+        contentValues.put(AGENDA_COLUMN_START, start);
+        contentValues.put(AGENDA_COLUMN_END, end);
+        contentValues.put(AGENDA_COLUMN_LOCATION, location);
+        db.insert(AGENDA_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public Cursor getDataEvent(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from " + AGENDA_TABLE_NAME + " where id=" + id + "", null);
+        return res;
+    }
+
+    public int numberOfRowsEvents(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, AGENDA_TABLE_NAME);
+        return numRows;
+    }
+
+    public boolean updateEvent (int id, String iddb, String summary, String description, String start, String end, String location)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues endValues = new ContentValues();
+        endValues.put(AGENDA_COLUMN_ID, id);
+        endValues.put(AGENDA_COLUMN_IDDB, iddb);
+        endValues.put(AGENDA_COLUMN_SUMMARY, summary);
+        endValues.put(AGENDA_COLUMN_DESCRIPTION, description);
+        endValues.put(AGENDA_COLUMN_START, start);
+        endValues.put(AGENDA_COLUMN_END, end);
+        endValues.put(AGENDA_COLUMN_LOCATION, location);
+        db.update(AGENDA_TABLE_NAME, endValues, "id = ? ", new String[] { Integer.toString(id) } );
+        return true;
+    }
+
+    public Integer deleteEvent (Integer id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(AGENDA_TABLE_NAME,
+                "id = ? ",
+                new String[] { Integer.toString(id) });
+    }
+
+    public void dropEvents (){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(AGENDA_TABLE_NAME, null, null);
+    }
+
+
+    public ArrayList<String> getAllEvents()
+    {
+        ArrayList<String> array_list = new ArrayList<>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from " + AGENDA_TABLE_NAME, null );
+        res.moveToFirst();
+
+        while(!res.isAfterLast()){
+            array_list.add(res.getString(res.getColumnIndex(AGENDA_COLUMN_SUMMARY)));
             res.moveToNext();
         }
         return array_list;

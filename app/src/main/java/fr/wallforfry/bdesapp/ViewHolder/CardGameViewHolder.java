@@ -2,6 +2,8 @@ package fr.wallforfry.bdesapp.ViewHolder;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import fr.wallforfry.bdesapp.Object.CardGameObject;
 import fr.wallforfry.bdesapp.R;
@@ -59,10 +62,11 @@ public class CardGameViewHolder extends RecyclerView.ViewHolder{
     }
 
     //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-    public void bind(CardGameObject myObject){
+    public void bind(final CardGameObject myObject){
         textViewView.setText(myObject.getText());
         gameName = myObject.getPkgName();
         view.findViewById(R.id.progressBarGame).setVisibility(View.VISIBLE);
+
         Picasso.with(imageView.getContext()).load(myObject.getImageUrl()).centerCrop().fit().into(imageView, new Callback() {
             @Override
             public void onSuccess() {
@@ -71,7 +75,7 @@ public class CardGameViewHolder extends RecyclerView.ViewHolder{
 
             @Override
             public void onError() {
-                imageView.setImageResource(R.drawable.problem);
+                //imageView.setImageResource(R.drawable.problem);
             }
         });
         //imageView.setImageResource(myObject.getImageUrl());

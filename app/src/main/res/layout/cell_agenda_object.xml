@@ -36,6 +36,38 @@
             android:layout_alignParentTop="false"
             android:layout_below="@+id/summary" />
 
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            tools:text="start"
+            android:fontFamily="sans-serif"
+            android:textColor="#333"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/description" />
+
+        <TextView
+            android:id="@+id/end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            tools:text="end"
+            android:fontFamily="sans-serif"
+            android:textColor="#333"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/start" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            tools:text="location"
+            android:fontFamily="sans-serif"
+            android:textColor="#333"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/end" />
     </RelativeLayout>
 
 

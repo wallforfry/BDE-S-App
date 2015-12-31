@@ -3,15 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Agenda"
-        android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,42 +11,15 @@
         android:layout_gravity="center_horizontal"
         android:visibility="visible"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Résultat"
-        android:id="@+id/rslt"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
-
-    <CalendarView
+    <RelativeLayout
+        android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/calendarView"
-        android:layout_gravity="center_horizontal"
-        android:maxDate="01/01/2017"
-        android:measureAllChildren="false"
-        android:minDate="11/01/2015"
-        android:showWeekNumber="true"
-        android:transitionGroup="false"
-        android:scrollIndicators="right"
-        android:touchscreenBlocksFocus="true"
-        android:visibility="gone"
-        android:scrollbars="vertical"
-        android:weekSeparatorLineColor="#FF0000"
-        android:weekNumberColor="#00FF00"
-        android:background="#0000FF" />
-
-    <com.marcohc.robotocalendar.RobotoCalendarView
-        android:id="@+id/robotoCalendarPicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.marcohc.robotocalendar.RobotoCalendarView>
+        android:layout_height="match_parent"></RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </LinearLayout>

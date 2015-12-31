@@ -41,6 +41,6 @@ dependencies {
     compile 'com.google.zxing:core:3.2.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.google.android.gms:play-services-identity:8.3.0'
-    compile 'com.github.marcohc:robotocalendarview:1.2.1'
+    compile 'com.roomorama:caldroid:2.3.1'
 }
 }

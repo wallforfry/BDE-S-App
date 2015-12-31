@@ -88,7 +88,7 @@ public class CardPictureOnlyViewHolder extends RecyclerView.ViewHolder{
 
             @Override
             public void onError() {
-                imageView.setImageResource(R.drawable.problem);
+                ///imageView.setImageResource(R.drawable.problem);
             }
         });
         //imageView.setImageResource(myObject.getImageUrl());

@@ -12,6 +12,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
+import fr.wallforfry.bdesapp.MainActivity;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.R;
 
@@ -76,7 +77,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
                     v.getContext().startActivity(i);
                 }
                 catch (android.content.ActivityNotFoundException anfe) {
-                    NewsFragment.makeSnack("Oups, pas de lien disponible..");
+                    MainActivity.makeSnack(NewsFragment.rootView, "Oups, pas de lien disponible..");
                 }
 
             }
@@ -118,7 +119,7 @@ public class CardBigPictureViewHolder extends RecyclerView.ViewHolder{
 
             @Override
             public void onError() {
-                imageView.setImageResource(R.drawable.problem);
+                //imageView.setImageResource(R.drawable.problem);
             }
         });
         //imageView.setImageResource(myObject.getImageUrl());

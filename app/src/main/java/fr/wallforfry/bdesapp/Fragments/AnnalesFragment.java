@@ -1,32 +1,20 @@
 package fr.wallforfry.bdesapp.Fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import fr.wallforfry.bdesapp.Adapter.AnnalesAdapter;
-import fr.wallforfry.bdesapp.BDD.BddConnect;
 import fr.wallforfry.bdesapp.Object.AnnalesObject;
 import fr.wallforfry.bdesapp.R;
 

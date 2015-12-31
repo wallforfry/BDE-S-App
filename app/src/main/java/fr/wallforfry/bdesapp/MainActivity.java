@@ -3,9 +3,8 @@ package fr.wallforfry.bdesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -17,21 +16,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import fr.wallforfry.bdesapp.BDD.BddConnect;
+import fr.wallforfry.bdesapp.AsyncTask.GetGames;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
 import fr.wallforfry.bdesapp.Fragments.JeuxFragment;
@@ -268,5 +261,19 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         getSupportActionBar().setTitle(title);
 
+    }
+
+    public static void makeSnack(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public static Boolean isConnected(Context c){
+        ConnectivityManager connMgr = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

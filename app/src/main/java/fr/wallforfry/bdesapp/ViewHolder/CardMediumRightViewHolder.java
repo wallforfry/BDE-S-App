@@ -61,7 +61,7 @@ public class CardMediumRightViewHolder extends RecyclerView.ViewHolder{
                     v.getContext().startActivity(i);
                 }
                 catch (android.content.ActivityNotFoundException anfe) {
-                    NewsFragment.makeSnack("Oups, pas de lien disponible..");
+                    MainActivity.makeSnack(NewsFragment.rootView, "Oups, pas de lien disponible..");
                 }
 
             }
@@ -97,7 +97,7 @@ public class CardMediumRightViewHolder extends RecyclerView.ViewHolder{
 
             @Override
             public void onError() {
-                imageView.setImageResource(R.drawable.problem);
+                //imageView.setImageResource(R.drawable.problem);
             }
         });
         //imageView.setImageResource(myObject.getImageUrl());
