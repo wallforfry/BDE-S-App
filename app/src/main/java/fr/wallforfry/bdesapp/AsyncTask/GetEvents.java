@@ -113,9 +113,9 @@ public class GetEvents extends AsyncTask<Void, Integer, Void> {
                 }
 
                 //ajout en local
-                mydb.insertEvent(i, id, summary, description, start, end, location);
-                AgendaObject event = new AgendaObject(summary, description, AgendaFragment.stringToDate(start), AgendaFragment.stringToDate(end), location);
-                AgendaFragment.events.add(event);
+                mydb.insertEvent(i, id, summary, description, AgendaFragment.dateToStringShort(AgendaFragment.stringToDate(start)), start, end, location);
+                //AgendaObject event = new AgendaObject(summary, description, AgendaFragment.stringToDate(start), AgendaFragment.stringToDate(end), location);
+                //AgendaFragment.events.add(event);
             }
         }catch (Exception e){
             e.printStackTrace();

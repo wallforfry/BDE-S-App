@@ -13,13 +13,15 @@ public class AgendaObject {
     private String summary;
     private String description;
     private String location;
+    private Date date;
     private Date start;
     private Date end;
 
-    public AgendaObject(String summary, String description, Date start, Date end, String location) {
+    public AgendaObject(String summary, String description, Date date,Date start, Date end, String location) {
         this.summary = summary;
         this.description = description;
         this.location = location;
+        this.date = date;
         this.start = start;
         this.end = end;
     }
@@ -64,4 +66,11 @@ public class AgendaObject {
         this.end = end;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

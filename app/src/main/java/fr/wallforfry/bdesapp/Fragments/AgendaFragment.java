@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -134,9 +135,26 @@ public class AgendaFragment extends Fragment {
                 SimpleDateFormat formatter = new SimpleDateFormat("'Le 'dd-MM-yyyy' à 'HH:mm");
 
                 @Override
-                public void onSelectDate(Date date, View view) {
-                    Toast.makeText(getActivity().getApplicationContext(), formatter.format(date),
-                            Toast.LENGTH_SHORT).show();
+                public void onSelectDate(Date adate, View view) {
+                    //Toast.makeText(getActivity().getApplicationContext(), formatter.format(date),Toast.LENGTH_SHORT).show();
+                    //Cursor rs = mydb.getDataEvent(mydb.numberOfRowsEvents() - 1);
+                    Cursor rs = mydb.getEventWithDate(dateToStringShort(adate));
+                        rs.moveToFirst();
+
+                        int id = rs.getInt(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_ID));
+                        String iddb = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_IDDB));
+                        String summary = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_SUMMARY));
+                        String description = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DESCRIPTION));
+                        String date = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DATE));
+                        String start = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_START));
+                        String end = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_END));
+                        String location = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_LOCATION));
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Description : " + description + "\nLieu : " + location + "\nDate : " + date + "\nDébut : " + start + "\nFin : " + end).setTitle(summary);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
                 }
 
                 @Override
@@ -178,9 +196,11 @@ public class AgendaFragment extends Fragment {
             String iddb = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_IDDB));
             String summary = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_SUMMARY));
             String description = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DESCRIPTION));
+            String date = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DATE));
             String start = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_START));
             String end = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_END));
             String location = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_LOCATION));
+
             AgendaFragment.addEvent(AgendaFragment.stringToDate(start));
         }
     }
@@ -212,11 +232,24 @@ public class AgendaFragment extends Fragment {
 
     public static String dateToString(Date date) {
 
-        SimpleDateFormat dateformat = new SimpleDateFormat("'Le 'dd-MM-yyyy' à 'HH:mm");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        //SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String datetime = dateformat.format(date);
 
         System.out.println("dateToString : " + datetime);
 
         return datetime;
     }
+
+    public static String dateToStringShort(Date date) {
+
+        //SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        String datetime = dateformat.format(date);
+
+        System.out.println("dateToStringShort : " + datetime);
+
+        return datetime;
+    }
+
 }

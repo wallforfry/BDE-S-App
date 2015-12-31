@@ -4,7 +4,9 @@ package fr.wallforfry.bdesapp.BDD;
  * Created by wallerand on 25/11/2015.
  */
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -16,6 +18,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
+import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.JeuxFragment;
 import fr.wallforfry.bdesapp.Object.CardBigPictureObject;
 import fr.wallforfry.bdesapp.Object.CardGameObject;
@@ -53,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String AGENDA_COLUMN_IDDB = "iddb";
     public static final String AGENDA_COLUMN_SUMMARY = "summary";
     public static final String AGENDA_COLUMN_DESCRIPTION = "description";
+    public static final String AGENDA_COLUMN_DATE = "date";
     public static final String AGENDA_COLUMN_START = "start";
     public static final String AGENDA_COLUMN_END = "end";
     public static final String AGENDA_COLUMN_LOCATION = "location";
@@ -79,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         db.execSQL(
                 "create table " + AGENDA_TABLE_NAME +
-                        "(id integer, iddb text, summary text, description text, start text, end text, location text)"
+                        "(id integer, iddb text, summary text, description text, date text, start text, end text, location text)"
         );
     }
 
@@ -277,7 +281,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     ///////////////////////////////AGENDA////////////////////////////////
 
-    public boolean insertEvent  (int id, String iddb, String summary, String description, String start, String end, String location)
+    public boolean insertEvent  (int id, String iddb, String summary, String description, String date, String start, String end, String location)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -285,6 +289,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(AGENDA_COLUMN_IDDB, iddb);
         contentValues.put(AGENDA_COLUMN_SUMMARY, summary);
         contentValues.put(AGENDA_COLUMN_DESCRIPTION, description);
+        contentValues.put(AGENDA_COLUMN_DATE, date);
         contentValues.put(AGENDA_COLUMN_START, start);
         contentValues.put(AGENDA_COLUMN_END, end);
         contentValues.put(AGENDA_COLUMN_LOCATION, location);
@@ -298,13 +303,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getEventWithDate(String date){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from " + AGENDA_TABLE_NAME + " where date='" + date +"'", null);
+        return res;
+    }
+
     public int numberOfRowsEvents(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, AGENDA_TABLE_NAME);
         return numRows;
     }
 
-    public boolean updateEvent (int id, String iddb, String summary, String description, String start, String end, String location)
+    public boolean updateEvent (int id, String iddb, String summary, String description, String date, String start, String end, String location)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues endValues = new ContentValues();
@@ -312,6 +323,7 @@ public class DBHelper extends SQLiteOpenHelper {
         endValues.put(AGENDA_COLUMN_IDDB, iddb);
         endValues.put(AGENDA_COLUMN_SUMMARY, summary);
         endValues.put(AGENDA_COLUMN_DESCRIPTION, description);
+        endValues.put(AGENDA_COLUMN_DATE, date);
         endValues.put(AGENDA_COLUMN_START, start);
         endValues.put(AGENDA_COLUMN_END, end);
         endValues.put(AGENDA_COLUMN_LOCATION, location);
