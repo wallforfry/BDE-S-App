@@ -22,8 +22,8 @@ public class AgendaViewHolder extends RecyclerView.ViewHolder{
     private TextView end;
     private TextView location;
 
-    private Date startDate = null;
-    private Date endDate = null;
+    private String startDate = null;
+    private String endDate = null;
 
     //itemView est la vue correspondante à 1 cellule
     public AgendaViewHolder(final View itemView) {
@@ -44,12 +44,12 @@ public class AgendaViewHolder extends RecyclerView.ViewHolder{
         summary.setText(myObject.getSummary());
         description.setText(myObject.getDescription());
         startDate = myObject.getStart();
-        start.setText(AgendaFragment.dateToString(startDate));
+        //start.setText(AgendaFragment.dateToString(startDate));
         endDate = myObject.getEnd();
-        end.setText(AgendaFragment.dateToString(endDate));
+        //end.setText(AgendaFragment.dateToString(endDate));
         location.setText(myObject.getLocation());
 
-        AgendaFragment.addEvent(startDate);
+        //AgendaFragment.addEvent(startDate);
     }
 
 }

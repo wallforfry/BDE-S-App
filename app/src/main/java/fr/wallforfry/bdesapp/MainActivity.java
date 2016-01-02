@@ -3,6 +3,7 @@ package fr.wallforfry.bdesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,25 +23,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.Task;
 import com.squareup.picasso.Picasso;
 
+import fr.wallforfry.bdesapp.AsyncTask.GetButown;
 import fr.wallforfry.bdesapp.AsyncTask.GetGames;
+import fr.wallforfry.bdesapp.BDD.DBHelper;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.Fragments.AnnalesFragment;
 import fr.wallforfry.bdesapp.Fragments.JeuxFragment;
 import fr.wallforfry.bdesapp.Fragments.MesClubsFragment;
 import fr.wallforfry.bdesapp.Fragments.NewsFragment;
 import fr.wallforfry.bdesapp.Fragments.QrCodeFragment;
+import fr.wallforfry.bdesapp.Object.ButownObject;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     static boolean alReadyStart = false;
+    public static DBHelper mydb;
+    public static ButownObject butown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mydb = new DBHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,21 +78,32 @@ public class MainActivity extends AppCompatActivity
 
        if(alReadyStart == false ){startFragment();}
 
-        String pp = "http://api.wallforfry.fr/photos/butown_new_york.png";
-        String hp = "http://api.wallforfry.fr/photos/new_york.jpg";
-
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main);
         final ImageView profilePicture = (ImageView) header.findViewById(R.id.profilePicture);
         final ImageView headerPicture = (ImageView) header.findViewById(R.id.headerPicture);
 
-        Picasso.with(profilePicture.getContext()).load(pp).fit().centerCrop().into(profilePicture);
-        Picasso.with(headerPicture.getContext()).load(hp).fit().centerCrop().into(headerPicture);
-
         TextView name = (TextView) header.findViewById(R.id.nav_identifiant);
         TextView town = (TextView) header.findViewById(R.id.nav_town);
 
-        name.setText("Benjamin Butown");
-        town.setText("New York");
+        if (MainActivity.isConnected(this)) {
+            GetButown requete = new GetButown();
+            requete.execute();
+        }
+
+        butown = loadHeader();
+
+        if(butown != null) {
+            Picasso.with(profilePicture.getContext()).load(butown.getProfile()).fit().centerCrop().into(profilePicture);
+            Picasso.with(headerPicture.getContext()).load(butown.getCouverture()).fit().centerCrop().into(headerPicture);
+            name.setText("Benjamin Butown");
+            town.setText(butown.getVille());
+        }
+        else{
+            Picasso.with(profilePicture.getContext()).load(R.drawable.app_logo).fit().centerCrop().into(profilePicture);
+            Picasso.with(headerPicture.getContext()).load(R.drawable.paris).fit().centerCrop().into(headerPicture);
+            name.setText("Benjamin Butown");
+            town.setText("Paris");
+        }
 
     }
 
@@ -96,13 +116,22 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void loadHeader() {
-        String identifiant_recu = null;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            identifiant_recu = extras.getString("identifiant");
+    public static ButownObject loadHeader() {
+
+        Cursor rs = mydb.getDataButown(0);
+        if(rs != null && rs.getCount()>0) {
+            rs.moveToFirst();
+
+            String profile = rs.getString(rs.getColumnIndex(DBHelper.BUTOWN_COLUMN_PROFILE));
+            String couverture = rs.getString(rs.getColumnIndex(DBHelper.BUTOWN_COLUMN_COUVERTURE));
+            String ville = rs.getString(rs.getColumnIndex(DBHelper.BUTOWN_COLUMN_VILLE));
+            ButownObject butown = new ButownObject(profile, couverture, ville);
+
+            return butown;
         }
-        ((TextView) findViewById(R.id.nav_identifiant)).setText(identifiant_recu);
+        else {
+            return null;
+        }
     }
 
     private void startFragment() {

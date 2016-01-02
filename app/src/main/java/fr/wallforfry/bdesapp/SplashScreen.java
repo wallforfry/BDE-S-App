@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import fr.wallforfry.bdesapp.AsyncTask.GetButown;
+import fr.wallforfry.bdesapp.AsyncTask.GetGames;
+import fr.wallforfry.bdesapp.AsyncTask.GetNews;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override

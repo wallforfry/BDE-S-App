@@ -1,5 +1,7 @@
 package fr.wallforfry.bdesapp.Fragments;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import fr.wallforfry.bdesapp.Adapter.AgendaAdapter;
 import fr.wallforfry.bdesapp.AsyncTask.GetEvents;
 import fr.wallforfry.bdesapp.BDD.DBHelper;
 import fr.wallforfry.bdesapp.MainActivity;
+import fr.wallforfry.bdesapp.Object.AgendaObject;
 import fr.wallforfry.bdesapp.R;
 
 /**
@@ -42,7 +45,7 @@ public class AgendaFragment extends Fragment {
     private static final String title = "Agenda";
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private View view;
+    public View rootView;
 
     public static CaldroidFragment caldroidFragment;
     public static DBHelper mydb;
@@ -50,6 +53,7 @@ public class AgendaFragment extends Fragment {
     RecyclerView recyclerView;
     AgendaAdapter adapter;
 
+    private List<AgendaObject> selectEvents = new ArrayList<AgendaObject>();
     public static List events = new ArrayList<>();
     public List maj = new ArrayList<>();
 
@@ -72,9 +76,7 @@ public class AgendaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
-        view = rootView;
-
+        rootView = inflater.inflate(R.layout.fragment_agenda, container, false);
         mydb = new DBHelper(getActivity());
 
         initializeCalendar();
@@ -139,21 +141,28 @@ public class AgendaFragment extends Fragment {
                     //Toast.makeText(getActivity().getApplicationContext(), formatter.format(date),Toast.LENGTH_SHORT).show();
                     //Cursor rs = mydb.getDataEvent(mydb.numberOfRowsEvents() - 1);
                     Cursor rs = mydb.getEventWithDate(dateToStringShort(adate));
-                        rs.moveToFirst();
+                    if(rs != null && rs.getCount()>0) {
 
-                        int id = rs.getInt(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_ID));
-                        String iddb = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_IDDB));
-                        String summary = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_SUMMARY));
-                        String description = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DESCRIPTION));
-                        String date = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DATE));
-                        String start = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_START));
-                        String end = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_END));
-                        String location = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_LOCATION));
+                        selectEvents.clear();
+                        for(int i = 0;i<rs.getCount();i++) {
+                            rs.moveToNext();
+                            int id = rs.getInt(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_ID));
+                            String iddb = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_IDDB));
+                            String summary = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_SUMMARY));
+                            String description = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DESCRIPTION));
+                            String date = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DATE));
+                            String hour = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_HOUR));
+                            String start = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_START));
+                            String end = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_END));
+                            String location = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_LOCATION));
+                            selectEvents.add(new AgendaObject(id, iddb, summary, description, date, hour, start, end, location));
+                        }
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setMessage("Description : " + description + "\nLieu : " + location + "\nDate : " + date + "\nDébut : " + start + "\nFin : " + end).setTitle(summary);
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                       makeEventDialog(0, rs.getCount());
+                    }
+                    else{
+                        MainActivity.makeSnack(rootView, "Pas d'évenement ce jour");
+                    }
 
                 }
 
@@ -197,12 +206,65 @@ public class AgendaFragment extends Fragment {
             String summary = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_SUMMARY));
             String description = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DESCRIPTION));
             String date = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_DATE));
+            String hour = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_HOUR));
             String start = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_START));
             String end = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_END));
             String location = rs.getString(rs.getColumnIndex(DBHelper.AGENDA_COLUMN_LOCATION));
 
             AgendaFragment.addEvent(AgendaFragment.stringToDate(start));
         }
+    }
+
+    private void makeEventDialog(final int event, final int max){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //builder.setMessage("Description : " + description + "\nLieu : " + location + "\nDate : " + date + "\nHeure : " + hour).setTitle(summary);
+        AgendaObject obj = selectEvents.get(event);
+        String description = "";
+        if(!obj.getDescription().equals("")){
+            description = "Description : "+obj.getDescription()+"\n";
+        }
+        String location = "";
+        if(!obj.getLocation().equals("")){
+            location = "Lieu : "+obj.getLocation()+"\n";
+        }
+        String date = "Date : "+obj.getDate()+"\n";
+        String hour = "Heure : "+obj.getHour()+"\n";
+
+        builder.setTitle(obj.getSummary()).setMessage(description+location+date+hour+"\n"+(event+1)+"/"+max);
+        if (event < max - 1) {
+            builder.setPositiveButton("Suivant", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    int suivant = event + 1;
+                    if (event + 1 > max - 1) {
+                        suivant = max - 1;
+                    }
+                    makeEventDialog(suivant, max);
+                }
+            });
+        }
+        if (event > 0) {
+            builder.setNegativeButton("Précédent", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    int precedent = event - 1;
+                    if (event - 1 < 0) {
+                        precedent = 0;
+                    }
+                    makeEventDialog(precedent, max);
+                }
+            });
+        }
+        builder.setNeutralButton("Retour", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public static Boolean existNotNull(JSONObject obj, String name){
@@ -224,8 +286,6 @@ public class AgendaFragment extends Fragment {
             e.printStackTrace();
         }
 
-        System.out.println("stringToDate : "+ stringDate);
-
         return stringDate;
 
     }
@@ -236,8 +296,6 @@ public class AgendaFragment extends Fragment {
         //SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String datetime = dateformat.format(date);
 
-        System.out.println("dateToString : " + datetime);
-
         return datetime;
     }
 
@@ -247,9 +305,14 @@ public class AgendaFragment extends Fragment {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String datetime = dateformat.format(date);
 
-        System.out.println("dateToStringShort : " + datetime);
-
         return datetime;
     }
 
+    public static String dateToStringHourShort(Date date) {
+
+        //SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
+        String datetime = dateformat.format(date);
+        return datetime;
+    }
 }

@@ -10,20 +10,42 @@ import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 
 public class AgendaObject {
 
+    private int id;
+    private String iddb;
     private String summary;
     private String description;
     private String location;
-    private Date date;
-    private Date start;
-    private Date end;
+    private String date;
+    private String hour;
+    private String start;
+    private String end;
 
-    public AgendaObject(String summary, String description, Date date,Date start, Date end, String location) {
+    public AgendaObject(int id, String iddb, String summary, String description, String date, String hour, String start, String end, String location) {
+        this.id = id;
+        this.iddb = iddb;
         this.summary = summary;
         this.description = description;
         this.location = location;
         this.date = date;
+        this.hour = hour;
         this.start = start;
         this.end = end;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIddb() {
+        return iddb;
+    }
+
+    public void setIddb(String iddb) {
+        this.iddb = iddb;
     }
 
     public String getSummary() {
@@ -50,27 +72,35 @@ public class AgendaObject {
         this.location = location;
     }
 
-    public Date getStart() {
-        return start;
-    }
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
     }
 }

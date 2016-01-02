@@ -57,9 +57,18 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String AGENDA_COLUMN_SUMMARY = "summary";
     public static final String AGENDA_COLUMN_DESCRIPTION = "description";
     public static final String AGENDA_COLUMN_DATE = "date";
+    public static final String AGENDA_COLUMN_HOUR = "hour";
     public static final String AGENDA_COLUMN_START = "start";
     public static final String AGENDA_COLUMN_END = "end";
     public static final String AGENDA_COLUMN_LOCATION = "location";
+
+    public static final String BUTOWN_TABLE_NAME = "app_butown";
+    public static final String BUTOWN_COLUMN_ID = "id";
+    public static final String BUTOWN_COLUMN_IDDB = "iddb";
+    public static final String BUTOWN_COLUMN_PROFILE = "profile";
+    public static final String BUTOWN_COLUMN_COUVERTURE = "couverture";
+    public static final String BUTOWN_COLUMN_DATE = "date";
+    public static final String BUTOWN_COLUMN_VILLE = "ville";
 
     private HashMap hp;
     int id_To_Update = 0;
@@ -83,7 +92,11 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         db.execSQL(
                 "create table " + AGENDA_TABLE_NAME +
-                        "(id integer, iddb text, summary text, description text, date text, start text, end text, location text)"
+                        "(id integer, iddb text, summary text, description text, date text, hour text, start text, end text, location text)"
+        );
+        db.execSQL(
+                "create table " + BUTOWN_TABLE_NAME +
+                        "(id integer, iddb integer, profile text, couverture text, date text, ville text)"
         );
     }
 
@@ -93,6 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + NEWS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + GAMES_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + AGENDA_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + BUTOWN_TABLE_NAME);
         onCreate(db);
     }
 
@@ -281,7 +295,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     ///////////////////////////////AGENDA////////////////////////////////
 
-    public boolean insertEvent  (int id, String iddb, String summary, String description, String date, String start, String end, String location)
+    public boolean insertEvent  (int id, String iddb, String summary, String description, String date, String hour, String start, String end, String location)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -290,6 +304,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(AGENDA_COLUMN_SUMMARY, summary);
         contentValues.put(AGENDA_COLUMN_DESCRIPTION, description);
         contentValues.put(AGENDA_COLUMN_DATE, date);
+        contentValues.put(AGENDA_COLUMN_HOUR, hour);
         contentValues.put(AGENDA_COLUMN_START, start);
         contentValues.put(AGENDA_COLUMN_END, end);
         contentValues.put(AGENDA_COLUMN_LOCATION, location);
@@ -305,7 +320,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getEventWithDate(String date){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from " + AGENDA_TABLE_NAME + " where date='" + date +"'", null);
+        Cursor res =  db.rawQuery("select * from " + AGENDA_TABLE_NAME + " where date='" + date + "'", null);
         return res;
     }
 
@@ -315,7 +330,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return numRows;
     }
 
-    public boolean updateEvent (int id, String iddb, String summary, String description, String date, String start, String end, String location)
+    public boolean updateEvent (int id, String iddb, String summary, String description, String date, String hour, String start, String end, String location)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues endValues = new ContentValues();
@@ -324,6 +339,7 @@ public class DBHelper extends SQLiteOpenHelper {
         endValues.put(AGENDA_COLUMN_SUMMARY, summary);
         endValues.put(AGENDA_COLUMN_DESCRIPTION, description);
         endValues.put(AGENDA_COLUMN_DATE, date);
+        endValues.put(AGENDA_COLUMN_HOUR, hour);
         endValues.put(AGENDA_COLUMN_START, start);
         endValues.put(AGENDA_COLUMN_END, end);
         endValues.put(AGENDA_COLUMN_LOCATION, location);
@@ -359,5 +375,60 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
         return array_list;
+    }
+
+    ///////////////////////////////BUTOWN////////////////////////////////
+
+    public boolean insertButown  (int id, int iddb, String profile, String couverture, String date, String ville)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(BUTOWN_COLUMN_ID, id);
+        contentValues.put(BUTOWN_COLUMN_IDDB, iddb);
+        contentValues.put(BUTOWN_COLUMN_PROFILE, profile);
+        contentValues.put(BUTOWN_COLUMN_COUVERTURE, couverture);
+        contentValues.put(BUTOWN_COLUMN_DATE, date);
+        contentValues.put(BUTOWN_COLUMN_VILLE, ville);
+        db.insert(BUTOWN_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public Cursor getDataButown(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from " + BUTOWN_TABLE_NAME + " where id=" + id + "", null);
+        return res;
+    }
+
+    public int numberOfRowsButown(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, BUTOWN_TABLE_NAME);
+        return numRows;
+    }
+
+    public boolean updateButown (int id, int iddb, String profile, String couverture, String date, String ville)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues endValues = new ContentValues();
+        endValues.put(BUTOWN_COLUMN_ID, id);
+        endValues.put(BUTOWN_COLUMN_IDDB, iddb);
+        endValues.put(BUTOWN_COLUMN_PROFILE, profile);
+        endValues.put(BUTOWN_COLUMN_COUVERTURE, couverture);
+        endValues.put(BUTOWN_COLUMN_DATE, date);
+        endValues.put(BUTOWN_COLUMN_VILLE, ville);
+        db.update(BUTOWN_TABLE_NAME, endValues, "id = ? ", new String[] { Integer.toString(id) } );
+        return true;
+    }
+
+    public Integer deleteButown (Integer id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(BUTOWN_TABLE_NAME,
+                "id = ? ",
+                new String[] { Integer.toString(id) });
+    }
+
+    public void dropButown (){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(BUTOWN_TABLE_NAME, null, null);
     }
 }

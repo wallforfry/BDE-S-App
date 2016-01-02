@@ -9,7 +9,7 @@
         android:text="Change Account"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/calendar"

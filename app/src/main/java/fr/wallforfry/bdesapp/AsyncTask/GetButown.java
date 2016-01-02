@@ -14,12 +14,12 @@ import java.util.List;
 import fr.wallforfry.bdesapp.BDD.DBHelper;
 import fr.wallforfry.bdesapp.Fragments.AgendaFragment;
 import fr.wallforfry.bdesapp.InputStreamOperations;
-import fr.wallforfry.bdesapp.Object.AgendaObject;
+import fr.wallforfry.bdesapp.MainActivity;
 
 /**
- * Created by wallerand on 30/12/2015.
+ * Created by wallerand on 01/01/2016.
  */
-public class GetEvents extends AsyncTask<Void, Integer, Void> {
+public class GetButown extends AsyncTask<Void, Integer, Void> {
 
 
     @Override
@@ -38,7 +38,7 @@ public class GetEvents extends AsyncTask<Void, Integer, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
 
-        getEvents();
+        getButown();
             /*int progress;
             for (progress=0;progress<=100;progress++)
             {
@@ -53,26 +53,21 @@ public class GetEvents extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPostExecute(Void result) {
         //Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé", Toast.LENGTH_LONG).show();
-        AgendaFragment.displayEvents();
-        AgendaFragment.caldroidFragment.refreshView();
+        MainActivity.butown = MainActivity.loadHeader();
     }
 
     DBHelper mydb;
 
-    public void getEvents() {
-        List maj_events = new ArrayList<>();
+    public void getButown() {
         try {
-            mydb = AgendaFragment.mydb; //mydb = à la base de donnée locale
+            mydb = MainActivity.mydb; //mydb = à la base de donnée locale
 
-            //String myurl = "https://www.googleapis.com/calendar/v3/calendars/developer-calendar@google.com/events?key=AIzaSyCdt0M6eNnyXXj5gUICkxvHcDFA18H7r8o";
-            String myurl = "https://www.googleapis.com/calendar/v3/calendars/3egm9h4jo5e7niu117dnv1hhutkoknj3@import.calendar.google.com/events?key=AIzaSyCdt0M6eNnyXXj5gUICkxvHcDFA18H7r8o";
-            String id = "";
-            String summary = "";
-            String description = "";
-            String start = "";
-            String end = "";
-            String location = "";
-
+            String myurl = "http://api.wallforfry.fr/getPictures";
+            int id = 0;
+            String profile = "";
+            String couverture = "";
+            String date = "";
+            String ville = "";
 
             URL url = new URL(myurl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -84,38 +79,35 @@ public class GetEvents extends AsyncTask<Void, Integer, Void> {
              * Elle contient une méthode InputStreamToString.
              */
             String result = InputStreamOperations.InputStreamToString(inputStream);
-            mydb.dropEvents();
+
+            mydb.dropButown();
+
             // On récupère le JSON complet
             JSONObject jsonObject = new JSONObject(result);
             // On récupère le tableau d'objets qui nous concernent
-            JSONArray array = new JSONArray(jsonObject.getString("items"));
+            JSONArray array = new JSONArray(jsonObject.getString("pictures"));
             // Pour tous les objets on récupère les infos
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = new JSONObject(array.getString(i));
 
                 if (AgendaFragment.existNotNull(obj, "id")) {
-                    id = obj.getString("id");
+                    id = obj.getInt("id");
                 }
-                if (AgendaFragment.existNotNull(obj, "summary")) {
-                    summary = obj.getString("summary");
+                if (AgendaFragment.existNotNull(obj, "profile")) {
+                    profile = obj.getString("profile");
                 }
-                if (AgendaFragment.existNotNull(obj, "description")) {
-                    description = obj.getString("description");
+                if (AgendaFragment.existNotNull(obj, "couverture")) {
+                    couverture = obj.getString("couverture");
                 }
-                if (AgendaFragment.existNotNull(obj, "start")) {
-                    start = new JSONObject(obj.getString("start")).getString("dateTime");
+                if (AgendaFragment.existNotNull(obj, "date")) {
+                    date = obj.getString("date");
                 }
-                if (AgendaFragment.existNotNull(obj, "end")) {
-                    end = new JSONObject(obj.getString("end")).getString("dateTime");
-                }
-                if (AgendaFragment.existNotNull(obj, "location")) {
-                    location = obj.getString("location");
+                if (AgendaFragment.existNotNull(obj, "ville")) {
+                    ville = obj.getString("ville");
                 }
 
                 //ajout en local
-                mydb.insertEvent(i, id, summary, description, AgendaFragment.dateToStringShort(AgendaFragment.stringToDate(start)), AgendaFragment.dateToStringHourShort(AgendaFragment.stringToDate(start)),start, end, location);
-                //AgendaObject event = new AgendaObject(summary, description, AgendaFragment.stringToDate(start), AgendaFragment.stringToDate(end), location);
-                //AgendaFragment.events.add(event);
+                mydb.insertButown(i, id, profile, couverture, date, ville);
             }
         }catch (Exception e){
             e.printStackTrace();
